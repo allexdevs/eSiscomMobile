@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react'
-import { Animated, Dimensions, View, Image, Text } from 'react-native'
+import { Animated, Dimensions, View, Text } from 'react-native'
+import { NativeBaseProvider, Image } from 'native-base'
 
 // Styles
 import Styles from './styles'
@@ -49,15 +50,17 @@ const SplashScreen = ({ navigation }) => {
   }, [])
 
   return (
+    <NativeBaseProvider>
     <View style={Styles.mainContainer}>
       <Animated.View style={[Styles.animationContainer, { opacity: logoAnim }]}>
-        <Image style={Styles.image} source={logo} resizeMode="contain" />
+        <Image alt='logo' source={logo} resizeMode="contain" />
       </Animated.View>
       <Animated.View style={[Styles.animationContainer, { opacity: iconAnim }]}>
         <Image style={Styles.image} source={icon} resizeMode="contain" />
         <Text style={Styles.text}>eSiscomMobile</Text>
       </Animated.View>
     </View>
+    </NativeBaseProvider>
   )
 }
 
