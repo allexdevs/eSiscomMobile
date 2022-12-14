@@ -36,7 +36,7 @@ const ConnectionScreen = ({ navigation }) => {
               Conexão
             </Text>
             <Button
-              ml='auto'
+              ml="auto"
               leftIcon={
                 <Icon
                   as={MaterialIcons}

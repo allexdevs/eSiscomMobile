@@ -1,5 +1,5 @@
 import React from 'react'
-import { Image, TouchableOpacity } from 'react-native'
+import { Image } from 'react-native'
 import {
   NativeBaseProvider,
   Input,
@@ -7,8 +7,10 @@ import {
   Text,
   Button,
   ScrollView,
+  Icon,
+  HStack
 } from 'native-base'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
 // styles
 import Styles from './styles'
@@ -28,18 +30,26 @@ const LoginScreen = ({ navigation }) => {
           <Input
             InputLeftElement={
               <Icon
+                as={MaterialIcons}
                 name="person"
-                size={24}
-                style={{ marginLeft: 14 }}
-                color="gray"
+                size="md"
+                ml="4"
+                color="gray.500"
               />
             }
             InputRightElement={
-              <Icon
-                name="delete"
-                size={24}
-                style={{ marginRight: 14 }}
-                color="gray"
+              <Button
+                leftIcon={
+                  <Icon
+                    as={MaterialIcons}
+                    name="delete"
+                    size="md"
+                    color="gray.500"
+                  />
+                }
+                borderRadius="50"
+                variant="ghost"
+                mr="1"
               />
             }
             w="75%"
@@ -50,38 +60,56 @@ const LoginScreen = ({ navigation }) => {
             variant="rounded"
             focusOutlineColor="amber.500"
           />
+          <HStack w='75%' justifyContent='flex-end'>
           <Input
             InputLeftElement={
               <Icon
+                as={MaterialIcons}
                 name="lock"
-                size={24}
-                style={{ marginLeft: 14 }}
-                color="gray"
+                size="md"
+                ml="4"
+                color="gray.500"
               />
             }
             InputRightElement={
               <>
-                <Icon
-                  name="delete"
-                  size={24}
-                  style={{ marginRight: 6 }}
-                  color="gray"
-                />
-                <Icon
-                  name="visibility-off"
-                  size={24}
-                  style={{ marginRight: 14 }}
-                  color="gray"
+                <Button
+                  leftIcon={
+                    <Icon
+                      as={MaterialIcons}
+                      name="delete"
+                      size="md"
+                      color="gray.500"
+                    />
+                  }
+                  variant="ghost"
+                  borderRadius="50"
+                  mr="1"
                 />
               </>
             }
-            w="75%"
+            w="80%"
             placeholder="Senha"
             keyboardType="numeric"
             variant="rounded"
             type="password"
             focusOutlineColor="amber.500"
+            mr='2'
           />
+          <Button
+            leftIcon={
+              <Icon
+                as={MaterialIcons}
+                name="visibility-off"
+                size="md"
+                color="gray.500"
+              />
+            }
+            variant="ghost"
+            borderRadius="50"
+            mr='2'
+          />
+          </HStack>
           <Button
             onPress={() => navigation.navigate('SyncScreen')}
             w="40%"
