@@ -51,15 +51,19 @@ const SplashScreen = ({ navigation }) => {
 
   return (
     <NativeBaseProvider>
-    <View style={Styles.mainContainer}>
-      <Animated.View style={[Styles.animationContainer, { opacity: logoAnim }]}>
-        <Image alt='logo' source={logo} resizeMode="contain" />
-      </Animated.View>
-      <Animated.View style={[Styles.animationContainer, { opacity: iconAnim }]}>
-        <Image style={Styles.image} source={icon} resizeMode="contain" />
-        <Text style={Styles.text}>eSiscomMobile</Text>
-      </Animated.View>
-    </View>
+      <View style={Styles.mainContainer}>
+        <Animated.View
+          style={[Styles.animationContainer, { opacity: logoAnim }]}
+        >
+          <Image alt="logo" source={logo} resizeMode="contain" />
+        </Animated.View>
+        <Animated.View
+          style={[Styles.animationContainer, { opacity: iconAnim }]}
+        >
+          <Image alt='icone' style={Styles.image} source={icon} resizeMode="contain" />
+          <Text style={Styles.text}>eSiscomMobile</Text>
+        </Animated.View>
+      </View>
     </NativeBaseProvider>
   )
 }

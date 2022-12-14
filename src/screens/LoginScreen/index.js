@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Image } from 'react-native'
+import { Image } from 'react-native'
 import {
   NativeBaseProvider,
   Input,
@@ -16,7 +16,7 @@ import Styles from './styles'
 // assets
 import logo from '../../assets/logo-light.png'
 
-const LoginScreen = () => {
+const LoginScreen = ({ navigation }) => {
   return (
     <NativeBaseProvider>
       <ScrollView>
@@ -82,10 +82,15 @@ const LoginScreen = () => {
             type="password"
             focusOutlineColor="amber.500"
           />
-          <Button w="40%" mt="16" colorScheme="amber">
+          <Button
+            onPress={() => navigation.navigate('SyncScreen')}
+            w="40%"
+            mt="16"
+            colorScheme="amber"
+          >
             Login
           </Button>
-          <Button mt="4" mb='12' variant="ghost" colorScheme="amber">
+          <Button mt="4" mb="12" variant="ghost" colorScheme="amber">
             Sair
           </Button>
         </Stack>

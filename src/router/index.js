@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 // screens
 import SplashScreen from '../screens/SplashScreen'
 import LoginScreen from '../screens/LoginScreen'
+import SyncScreen from '../screens/SyncScreen'
 
 const Stack = createNativeStackNavigator()
 
@@ -21,6 +22,10 @@ const Router = () => {
           options={{ headerShown: false }}
           name="LoginScreen"
           component={LoginScreen}
+        />
+        <Stack.Screen
+          name="SyncScreen"
+          component={SyncScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>
