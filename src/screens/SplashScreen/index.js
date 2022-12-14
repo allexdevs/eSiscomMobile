@@ -39,7 +39,7 @@ const SplashScreen = ({ navigation }) => {
   }
 
   const toLogin = () => {
-    setInterval(() => {
+    setTimeout(() => {
       navigation.navigate('LoginScreen')
     }, 15000)
   }
@@ -60,7 +60,12 @@ const SplashScreen = ({ navigation }) => {
         <Animated.View
           style={[Styles.animationContainer, { opacity: iconAnim }]}
         >
-          <Image alt='icone' style={Styles.image} source={icon} resizeMode="contain" />
+          <Image
+            alt="icone"
+            style={Styles.image}
+            source={icon}
+            resizeMode="contain"
+          />
           <Text style={Styles.text}>eSiscomMobile</Text>
         </Animated.View>
       </View>
