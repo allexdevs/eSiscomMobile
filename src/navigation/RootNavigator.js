@@ -24,7 +24,7 @@ const RootNavigator = () => {
         component={LoginScreen}
       />
       <Stack.Screen
-        options={{ title: 'Sincronizar Dados' }}
+        options={{ headerShown: false }}
         name="SyncScreen"
         component={TabNavigatorSync}
       />
