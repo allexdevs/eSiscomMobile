@@ -8,7 +8,7 @@ import {
   Button,
   ScrollView,
   Icon,
-  HStack
+  HStack,
 } from 'native-base'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 
@@ -60,55 +60,55 @@ const LoginScreen = ({ navigation }) => {
             variant="rounded"
             focusOutlineColor="amber.500"
           />
-          <HStack w='75%' justifyContent='flex-end'>
-          <Input
-            InputLeftElement={
-              <Icon
-                as={MaterialIcons}
-                name="lock"
-                size="md"
-                ml="4"
-                color="gray.500"
-              />
-            }
-            InputRightElement={
-              <>
-                <Button
-                  leftIcon={
-                    <Icon
-                      as={MaterialIcons}
-                      name="delete"
-                      size="md"
-                      color="gray.500"
-                    />
-                  }
-                  variant="ghost"
-                  borderRadius="50"
-                  mr="1"
+          <HStack w="75%" justifyContent="flex-end">
+            <Input
+              InputLeftElement={
+                <Icon
+                  as={MaterialIcons}
+                  name="lock"
+                  size="md"
+                  ml="4"
+                  color="gray.500"
                 />
-              </>
-            }
-            w="80%"
-            placeholder="Senha"
-            keyboardType="numeric"
-            variant="rounded"
-            type="password"
-            focusOutlineColor="amber.500"
-            mr='2'
-          />
-          <Button
-            leftIcon={
-              <Icon
-                as={MaterialIcons}
-                name="visibility-off"
-                size="md"
-                color="gray.500"
-              />
-            }
-            variant="ghost"
-            borderRadius="50"
-            mr='2'
-          />
+              }
+              InputRightElement={
+                <>
+                  <Button
+                    leftIcon={
+                      <Icon
+                        as={MaterialIcons}
+                        name="delete"
+                        size="md"
+                        color="gray.500"
+                      />
+                    }
+                    variant="ghost"
+                    borderRadius="50"
+                    mr="1"
+                  />
+                </>
+              }
+              w="75%"
+              placeholder="Senha"
+              keyboardType="numeric"
+              variant="rounded"
+              type="password"
+              focusOutlineColor="amber.500"
+              mr="2"
+            />
+            <Button
+              leftIcon={
+                <Icon
+                  as={MaterialIcons}
+                  name="visibility-off"
+                  size="md"
+                  color="gray.500"
+                />
+              }
+              variant="ghost"
+              borderRadius="50"
+              mr="2"
+            />
           </HStack>
           <Button
             onPress={() => navigation.navigate('SyncScreen')}
@@ -118,7 +118,13 @@ const LoginScreen = ({ navigation }) => {
           >
             Login
           </Button>
-          <Button mt="4" mb="12" variant="ghost" colorScheme="amber">
+          <Button
+            onPress={() => navigation.navigate('HomeScreen')}
+            mt="4"
+            mb="12"
+            variant="ghost"
+            colorScheme="amber"
+          >
             Sair
           </Button>
         </Stack>

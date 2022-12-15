@@ -20,7 +20,7 @@ const ConnectionScreen = ({ navigation }) => {
         <Box bgColor="amber.500" py="2" px="2" shadow={8} mb="4">
           <HStack alignItems="center">
             <Button
-              onPress={() => navigation.goBack()}
+              onPress={() => navigation.navigate('LoginScreen')}
               leftIcon={
                 <Icon
                   as={MaterialIcons}
