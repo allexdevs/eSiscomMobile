@@ -60,56 +60,53 @@ const LoginScreen = ({ navigation }) => {
             variant="rounded"
             focusOutlineColor="amber.500"
           />
-          <HStack w="75%" justifyContent="flex-end">
-            <Input
-              InputLeftElement={
-                <Icon
-                  as={MaterialIcons}
-                  name="lock"
-                  size="md"
-                  ml="4"
-                  color="gray.500"
+          <Input
+            InputLeftElement={
+              <Icon
+                as={MaterialIcons}
+                name="lock"
+                size="md"
+                ml="4"
+                color="gray.500"
+              />
+            }
+            InputRightElement={
+              <>
+                <Button
+                  leftIcon={
+                    <Icon
+                      as={MaterialIcons}
+                      name="delete"
+                      size="md"
+                      color="gray.500"
+                    />
+                  }
+                  variant="ghost"
+                  borderRadius="50"
                 />
-              }
-              InputRightElement={
-                <>
-                  <Button
-                    leftIcon={
-                      <Icon
-                        as={MaterialIcons}
-                        name="delete"
-                        size="md"
-                        color="gray.500"
-                      />
-                    }
-                    variant="ghost"
-                    borderRadius="50"
-                    mr="1"
-                  />
-                </>
-              }
-              w="75%"
-              placeholder="Senha"
-              keyboardType="numeric"
-              variant="rounded"
-              type="password"
-              focusOutlineColor="amber.500"
-              mr="2"
-            />
-            <Button
-              leftIcon={
-                <Icon
-                  as={MaterialIcons}
-                  name="visibility-off"
-                  size="md"
-                  color="gray.500"
+                <Button
+                  leftIcon={
+                    <Icon
+                      as={MaterialIcons}
+                      name="visibility-off"
+                      size="md"
+                      color="gray.500"
+                    />
+                  }
+                  variant="ghost"
+                  borderRadius="50"
+                  mr='1'
                 />
-              }
-              variant="ghost"
-              borderRadius="50"
-              mr="2"
-            />
-          </HStack>
+              </>
+            }
+            w="75%"
+            placeholder="Senha"
+            keyboardType="numeric"
+            variant="rounded"
+            type="password"
+            focusOutlineColor="amber.500"
+            mr="2"
+          />
           <Button
             onPress={() => navigation.navigate('SyncScreen')}
             w="40%"
