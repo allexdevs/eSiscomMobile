@@ -1,5 +1,6 @@
-import React from 'react'
-import { Image } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { Image, Alert } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import {
   NativeBaseProvider,
   Input,
@@ -8,9 +9,9 @@ import {
   Button,
   ScrollView,
   Icon,
-  HStack,
 } from 'native-base'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import { authenticate } from '../../services/loginService'
 
 // styles
 import Styles from './styles'
@@ -19,6 +20,90 @@ import Styles from './styles'
 import logo from '../../assets/logo-light.png'
 
 const LoginScreen = ({ navigation }) => {
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [settings, setSettings] = useState({})
+
+  const runLogin = () => {
+    if (username !== '' && password !== '') {
+      if (
+        !settings.host ||
+        !settings.database ||
+        !settings.username ||
+        !settings.password ||
+        !settings.port
+      ) {
+        if (username === 'FOCO' && password === '1931') {
+          navigation.navigate('SyncScreen')
+        } else {
+          Alert.alert('Login', 'Usuário ou senha incorretos', [
+            {
+              text: 'Ok',
+              style: 'default',
+              onPress: () => {},
+            },
+          ])
+        }
+      } else {
+        authenticate(username, password)
+          .then(res => {
+            if (res.status === 'success') {
+              Alert.alert("Login", `${res.message}`, [
+                {
+                  text: 'Ok',
+                  style: 'default',
+                  onPress: () => navigation.navigate('HomeScreen')
+                }
+              ])
+            } else {
+              Alert.alert("Login", `${res.message}`, [
+                {
+                  text: 'Ok',
+                  style: 'default',
+                  onPress: () => {}
+                }
+              ])
+            }
+          })
+          .catch(error => console.log(error))
+      }
+    } else {
+      Alert.alert('Campos Vazios', 'Preencha os campos em branco', [
+        {
+          text: 'Ok',
+          style: 'default',
+          onPress: () => {},
+        },
+      ])
+    }
+  }
+
+  const checkSettings = async () => {
+    try {
+      const savedSettings = await AsyncStorage.getItem('settings')
+      return savedSettings != null ? JSON.parse(savedSettings) : {}
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
+  useEffect(() => {
+    const config = checkSettings()
+    config
+      .then(value => {
+        const response = {
+          host: value.host,
+          database: value.database,
+          username: value.username,
+          password: value.password,
+          port: value.port,
+        }
+        setSettings(response)
+        console.log(settings)
+      })
+      .catch(error => console.log(error))
+  }, [])
+
   return (
     <NativeBaseProvider>
       <ScrollView>
@@ -59,6 +144,7 @@ const LoginScreen = ({ navigation }) => {
             keyboardType="default"
             variant="rounded"
             focusOutlineColor="amber.500"
+            onChangeText={text => setUsername(text)}
           />
           <Input
             InputLeftElement={
@@ -95,7 +181,7 @@ const LoginScreen = ({ navigation }) => {
                   }
                   variant="ghost"
                   borderRadius="50"
-                  mr='1'
+                  mr="1"
                 />
               </>
             }
@@ -106,9 +192,10 @@ const LoginScreen = ({ navigation }) => {
             type="password"
             focusOutlineColor="amber.500"
             mr="2"
+            onChangeText={text => setPassword(text)}
           />
           <Button
-            onPress={() => navigation.navigate('SyncScreen')}
+            onPress={() => runLogin()}
             w="40%"
             mt="16"
             colorScheme="amber"

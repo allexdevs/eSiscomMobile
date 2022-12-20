@@ -1,4 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
+import AsyncStorage from '@react-native-async-storage/async-storage'
+import { Alert } from 'react-native'
 import {
   NativeBaseProvider,
   Input,
@@ -14,6 +16,52 @@ import {
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const ConnectionScreen = ({ navigation }) => {
+  const [host, setHost] = useState('')
+  const [database, setDatabase] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [port, setPort] = useState('')
+
+  const saveSettings = async () => {
+    if (!host || !database || !username || !password || !port) {
+      Alert.alert('Campos em Vazios', 'Preencha os campos em branco', [
+        {
+          text: 'Ok',
+          style: 'default',
+          onPress: () => {},
+        },
+      ])
+      return
+    }
+    try {
+      const settings = {
+        host: host,
+        database: database,
+        username: username,
+        password: password,
+        port: port,
+      }
+      const value = JSON.stringify(settings)
+      await AsyncStorage.setItem('settings', value)
+      Alert.alert('Sucesso', 'Configuração realizada com sucesso', [
+        {
+          text: 'Ok',
+          onPress: () => navigation.navigate('LoginScreen'),
+          style: 'default',
+        },
+      ])
+    } catch (e) {
+      Alert.alert('Erro', 'Não foi possível concluir a configuração', [
+        {
+          text: 'Ok',
+          onPress: () => {},
+          style: 'cancel',
+        },
+      ])
+      console.log(e)
+    }
+  }
+
   return (
     <NativeBaseProvider>
       <ScrollView>
@@ -77,6 +125,7 @@ const ConnectionScreen = ({ navigation }) => {
             w="90%"
             variant="rounded"
             placeholder="Endereço IP"
+            onChangeText={text => setHost(text)}
           />
           <Input
             InputLeftElement={
@@ -93,6 +142,7 @@ const ConnectionScreen = ({ navigation }) => {
             w="90%"
             variant="rounded"
             placeholder="Base de dados"
+            onChangeText={text => setDatabase(text)}
           />
           <Input
             InputLeftElement={
@@ -109,6 +159,7 @@ const ConnectionScreen = ({ navigation }) => {
             w="90%"
             variant="rounded"
             placeholder="Usuário"
+            onChangeText={text => setUsername(text)}
           />
           <Input
             InputLeftElement={
@@ -126,6 +177,7 @@ const ConnectionScreen = ({ navigation }) => {
             variant="rounded"
             placeholder="Senha"
             type="password"
+            onChangeText={text => setPassword(text)}
           />
           <Input
             InputLeftElement={
@@ -142,6 +194,9 @@ const ConnectionScreen = ({ navigation }) => {
             w="90%"
             variant="rounded"
             placeholder="Porta"
+            onChangeText={text => setPort(text)}
+            keyboardType="numeric"
+            mb="24"
           />
           <Fab
             colorScheme="amber"
@@ -149,6 +204,7 @@ const ConnectionScreen = ({ navigation }) => {
             icon={
               <Icon as={MaterialIcons} name="check" color="white" size="md" />
             }
+            onPress={() => saveSettings()}
           />
         </Stack>
       </ScrollView>
