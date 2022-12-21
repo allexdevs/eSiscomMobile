@@ -30,12 +30,12 @@ Entre no diretório do projeto
 Instale as dependências
 
 ```bash
-  npm install
+  yarn
 ```
 
 Inicie o servidor
 
 ```bash
-  npx react-native run-android
+  yarn android
 ```
 
