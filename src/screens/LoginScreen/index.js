@@ -219,7 +219,6 @@ const LoginScreen = ({ navigation }) => {
             Login
           </Button>
           <Button
-            onPress={() => navigation.navigate('HomeScreen')}
             mt="4"
             mb="12"
             variant="ghost"

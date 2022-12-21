@@ -1,3 +1,3 @@
-const URL_API = `http://192.168.1.100:5200`
+const URL_API = `http://10.0.2.2:5200`
 
 export { URL_API }
