@@ -14,6 +14,7 @@ import {
   Button,
 } from 'native-base'
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import { config } from '../../services/settingsService'
 
 const ConnectionScreen = ({ navigation }) => {
   const [host, setHost] = useState('')
@@ -43,13 +44,25 @@ const ConnectionScreen = ({ navigation }) => {
       }
       const value = JSON.stringify(settings)
       await AsyncStorage.setItem('settings', value)
-      Alert.alert('Sucesso', 'Configuração realizada com sucesso', [
-        {
-          text: 'Ok',
-          onPress: () => navigation.navigate('LoginScreen'),
-          style: 'default',
-        },
-      ])
+      config(host, database, username, password, port)
+        .then(res => {
+          Alert.alert('Configuração', `${res.message}`, [
+            {
+              text: 'Ok',
+              onPress: () => navigation.navigate('LoginScreen'),
+              style: 'default',
+            },
+          ])
+        })
+        .catch(error => {
+          Alert.alert('Configuração', `${error.message}`, [
+            {
+              text: 'Ok',
+              onPress: () => navigation.navigate('LoginScreen'),
+              style: 'default',
+            },
+          ])
+        })
     } catch (e) {
       Alert.alert('Erro', 'Não foi possível concluir a configuração', [
         {

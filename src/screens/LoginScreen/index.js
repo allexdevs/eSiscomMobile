@@ -23,6 +23,13 @@ const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [settings, setSettings] = useState({})
+  const [visibility, setVisibility] = useState('password')
+
+  const clearUsername = () => setUsername('')
+  const clearPassword = () => setPassword('')
+  const toggleVisibility = () => {
+    visibility == 'password' ? setVisibility('text') : setVisibility('password')
+  }
 
   const runLogin = () => {
     if (username !== '' && password !== '') {
@@ -48,20 +55,20 @@ const LoginScreen = ({ navigation }) => {
         authenticate(username, password)
           .then(res => {
             if (res.status === 'success') {
-              Alert.alert("Login", `${res.message}`, [
+              Alert.alert('Login', `${res.message}`, [
                 {
                   text: 'Ok',
                   style: 'default',
-                  onPress: () => navigation.navigate('HomeScreen')
-                }
+                  onPress: () => navigation.navigate('HomeScreen'),
+                },
               ])
             } else {
-              Alert.alert("Login", `${res.message}`, [
+              Alert.alert('Login', `${res.message}`, [
                 {
                   text: 'Ok',
                   style: 'default',
-                  onPress: () => {}
-                }
+                  onPress: () => {},
+                },
               ])
             }
           })
@@ -88,21 +95,25 @@ const LoginScreen = ({ navigation }) => {
   }
 
   useEffect(() => {
-    const config = checkSettings()
-    config
-      .then(value => {
-        const response = {
-          host: value.host,
-          database: value.database,
-          username: value.username,
-          password: value.password,
-          port: value.port,
-        }
-        setSettings(response)
-        console.log(settings)
-      })
-      .catch(error => console.log(error))
-  }, [])
+    const settingsVerification = navigation.addListener('focus', () => {
+      const config = checkSettings()
+      config
+        .then(value => {
+          const response = {
+            host: value.host,
+            database: value.database,
+            username: value.username,
+            password: value.password,
+            port: value.port,
+          }
+          setSettings(response)
+          console.log(settings)
+        })
+        .catch(error => console.log(error))
+    })
+
+    return settingsVerification
+  }, [navigation])
 
   return (
     <NativeBaseProvider>
@@ -135,6 +146,7 @@ const LoginScreen = ({ navigation }) => {
                 borderRadius="50"
                 variant="ghost"
                 mr="1"
+                onPress={() => clearUsername()}
               />
             }
             w="75%"
@@ -145,6 +157,7 @@ const LoginScreen = ({ navigation }) => {
             variant="rounded"
             focusOutlineColor="amber.500"
             onChangeText={text => setUsername(text)}
+            value={username}
           />
           <Input
             InputLeftElement={
@@ -169,6 +182,7 @@ const LoginScreen = ({ navigation }) => {
                   }
                   variant="ghost"
                   borderRadius="50"
+                  onPress={() => clearPassword()}
                 />
                 <Button
                   leftIcon={
@@ -182,6 +196,7 @@ const LoginScreen = ({ navigation }) => {
                   variant="ghost"
                   borderRadius="50"
                   mr="1"
+                  onPress={() => toggleVisibility()}
                 />
               </>
             }
@@ -189,10 +204,11 @@ const LoginScreen = ({ navigation }) => {
             placeholder="Senha"
             keyboardType="numeric"
             variant="rounded"
-            type="password"
+            type={visibility}
             focusOutlineColor="amber.500"
             mr="2"
             onChangeText={text => setPassword(text)}
+            value={password}
           />
           <Button
             onPress={() => runLogin()}
