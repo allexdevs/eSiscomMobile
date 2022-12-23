@@ -21,7 +21,7 @@ const items = [
     rightIcon: 'chevron-right-circle-outline',
     title: 'Clientes',
     subtitle: 'Consulte ou Cadastre Clientes',
-    route: 'Clients',
+    route: 'QueryScreen',
   },
   {
     id: 4,

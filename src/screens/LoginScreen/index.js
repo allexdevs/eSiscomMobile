@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Image, Alert } from 'react-native'
+import { Image } from 'react-native'
+import SweetAlert from 'react-native-sweet-alert'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import {
   NativeBaseProvider,
@@ -43,45 +44,56 @@ const LoginScreen = ({ navigation }) => {
         if (username === 'FOCO' && password === '1931') {
           navigation.navigate('SyncScreen')
         } else {
-          Alert.alert('Login', 'Usuário ou senha incorretos', [
+          SweetAlert.showAlertWithOptions(
             {
-              text: 'Ok',
-              style: 'default',
-              onPress: () => {},
+              title: 'Login',
+              subTitle: 'Usuário ou senha incorretos',
+              confirmButtonTitle: 'Ok',
+              style: 'warning',
             },
-          ])
+            callback => console.log(callback),
+          )
         }
       } else {
         authenticate(username, password)
           .then(res => {
             if (res.status === 'success') {
-              Alert.alert('Login', `${res.message}`, [
+              SweetAlert.showAlertWithOptions(
                 {
-                  text: 'Ok',
-                  style: 'default',
-                  onPress: () => navigation.navigate('HomeScreen'),
+                  title: 'Login',
+                  subTitle: `${res.message}`,
+                  confirmButtonTitle: 'Ok',
+                  style: 'success',
                 },
-              ])
+                callback =>
+                  callback == 'accepted'
+                    ? navigation.navigate('HomeScreen')
+                    : null,
+              )
             } else {
-              Alert.alert('Login', `${res.message}`, [
+              SweetAlert.showAlertWithOptions(
                 {
-                  text: 'Ok',
-                  style: 'default',
-                  onPress: () => {},
+                  title: 'Login',
+                  subTitle: `${res.message}`,
+                  confirmButtonTitle: 'Ok',
+                  style: 'warning',
                 },
-              ])
+                callback => console.log(callback),
+              )
             }
           })
           .catch(error => console.log(error))
       }
     } else {
-      Alert.alert('Campos Vazios', 'Preencha os campos em branco', [
+      SweetAlert.showAlertWithOptions(
         {
-          text: 'Ok',
-          style: 'default',
-          onPress: () => {},
+          title: 'Campos Vazios',
+          subTitle: 'Preencha os campos em branco',
+          confirmButtonText: 'Ok',
+          style: 'warning',
         },
-      ])
+        callback => console.log(callback),
+      )
     }
   }
 
@@ -218,12 +230,7 @@ const LoginScreen = ({ navigation }) => {
           >
             Login
           </Button>
-          <Button
-            mt="4"
-            mb="12"
-            variant="ghost"
-            colorScheme="amber"
-          >
+          <Button mt="4" mb="12" variant="ghost" colorScheme="amber">
             Sair
           </Button>
         </Stack>

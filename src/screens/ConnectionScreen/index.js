@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import AsyncStorage from '@react-native-async-storage/async-storage'
-import { Alert } from 'react-native'
+import SweetAlert from 'react-native-sweet-alert'
 import {
   NativeBaseProvider,
   Input,
@@ -25,13 +25,15 @@ const ConnectionScreen = ({ navigation }) => {
 
   const saveSettings = async () => {
     if (!host || !database || !username || !password || !port) {
-      Alert.alert('Campos em Vazios', 'Preencha os campos em branco', [
+      SweetAlert.showAlertWithOptions(
         {
-          text: 'Ok',
-          style: 'default',
-          onPress: () => {},
+          title: 'Campos Vazios',
+          subTitle: 'Preencha os campos em branco',
+          confirmButtonTitle: 'Ok',
+          style: 'warning',
         },
-      ])
+        callback => console.log(callback),
+      )
       return
     }
     try {
@@ -46,31 +48,41 @@ const ConnectionScreen = ({ navigation }) => {
       await AsyncStorage.setItem('settings', value)
       config(host, database, username, password, port)
         .then(res => {
-          Alert.alert('Configuração', `${res.message}`, [
+          SweetAlert.showAlertWithOptions(
             {
-              text: 'Ok',
-              onPress: () => navigation.navigate('LoginScreen'),
-              style: 'default',
+              title: 'Configuração',
+              subTitle: `${res.message}`,
+              confirmButtonTitle: 'Ok',
+              style: 'success',
             },
-          ])
+            callback =>
+              callback == 'accepted'
+                ? navigation.navigate('LoginScreen')
+                : null,
+          )
         })
         .catch(error => {
-          Alert.alert('Configuração', `${error.message}`, [
+          SweetAlert.showAlertWithOptions(
             {
-              text: 'Ok',
-              onPress: () => navigation.navigate('LoginScreen'),
-              style: 'default',
+              title: 'Configuração',
+              subTitle: `${error.message}`,
+              confirmButtonTitle: 'Ok',
+              style: 'error',
             },
-          ])
+            callback =>
+              callback == 'accepted' ? SweetAlert.dismissAlert() : null,
+          )
         })
     } catch (e) {
-      Alert.alert('Erro', 'Não foi possível concluir a configuração', [
+      SweetAlert.showAlertWithOptions(
         {
-          text: 'Ok',
-          onPress: () => {},
-          style: 'cancel',
+          title: 'Erro',
+          subTitle: 'Não foi possível concluir a configuração',
+          confirmButtonTitle: 'Ok',
+          style: 'error',
         },
-      ])
+        callback => (callback == 'accepted' ? SweetAlert.dismissAlert() : null),
+      )
       console.log(e)
     }
   }
