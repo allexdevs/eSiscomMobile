@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {
   NativeBaseProvider,
   HStack,
@@ -20,11 +20,13 @@ import {
   getCustomerById
 } from '../../services/customersService'
 import ListItem from '../../components/ListItem'
+import { RefreshControl } from 'react-native'
 
 const QueryScreen = ({ navigation }) => {
   const [filterValue, setFilterValue] = useState('')
   const [searchValue, setSearchValue] = useState('')
   const [customers, setCustomers] = useState([])
+  const [refreshing, setRefreshing] = useState(false)
 
   const clearSearchValue = () => setSearchValue('')
 
@@ -69,6 +71,24 @@ const QueryScreen = ({ navigation }) => {
 
   useEffect(() => customerSearch(), [searchValue, filterValue])
 
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout))
+  }
+
+  const onRefresh = useCallback(() => {
+    setRefreshing(true)
+    setCustomers([])
+    setSearchValue('')
+    wait(3000).then(() => {
+      setRefreshing(false)
+      getCustomers()
+        .then(res => {
+          setCustomers(res)
+        })
+        .catch(error => console.log(error))
+    })
+  }, [])
+
   return (
     <NativeBaseProvider>
       <Box bgColor="amber.500" py="2" px="2" mb="4" shadow={8}>
@@ -95,7 +115,7 @@ const QueryScreen = ({ navigation }) => {
       <Box
         justifyContent="center"
         h="12"
-        mb="8"
+        mb="6"
         borderWidth={1}
         borderColor="gray.300"
         mx="4"
@@ -170,8 +190,19 @@ const QueryScreen = ({ navigation }) => {
         </HStack>
       </Box>
 
+      <Box w='100%' px='4' mb='6'>
+      <Text fontWeight='bold' color='gray.500'>Histórico de Clientes</Text>
+      </Box>
+
       <FlatList
         data={customers}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={onRefresh}
+            colors={['#faba24']}
+          />
+        }
         ListEmptyComponent={<ListEmptyItem />}
         ListFooterComponent={<Box h="75" />}
         renderItem={({ item }) => (
