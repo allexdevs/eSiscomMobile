@@ -46,7 +46,7 @@ const QueryScreen = ({ navigation }) => {
         setCustomers([])
         getCustomerByName(searchValue)
           .then(res => {
-            res.status == 'success' ? setCustomers([res.payload]) : setCustomers([])
+            res.status == 'success' ? setCustomers(res.payload) : setCustomers([])
           })
           .catch(error => console.log(error))
       } else {
