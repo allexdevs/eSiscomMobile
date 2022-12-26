@@ -1,17 +1,15 @@
-
 ![Logo](https://focosistemas.com.br/wp-content/uploads/2022/01/logotipo-foco-sistemas-agencia-dipixel.png)
-
 
 # eSiscom Mobile
 
 Aplicativo desenvolvido pela Foco Sistemas. Com ele é possível realizar pré-vendas entre outras atividades que vão automatizar o seu negócio.
+
 ## Funcionalidades
 
 - Cadastrar e Consultar Pré-Vendas
-- Cadastrar e Consultar Clientes 
-- Consultar Contas a Receber 
+- Cadastrar e Consultar Clientes
+- Consultar Contas a Receber
 - Consultar Produtos
-
 
 ## Rodando localmente
 
@@ -38,4 +36,3 @@ Inicie o servidor
 ```bash
   yarn android
 ```
-

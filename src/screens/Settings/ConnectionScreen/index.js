@@ -14,7 +14,7 @@ import {
   Button,
 } from 'native-base'
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { config } from '../../services/settingsService'
+import { config } from '../../../services/settingsService'
 
 const ConnectionScreen = ({ navigation }) => {
   const [host, setHost] = useState('')

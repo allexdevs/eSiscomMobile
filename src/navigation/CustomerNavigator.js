@@ -3,7 +3,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 // screens
-import QueryScreen from '../screens/QueryScreen'
+import MainScreen from '../screens/Customer/MainScreen'
+import AddressScreen from '../screens/Customer/AddressScreen'
+import AdditionalScreen from '../screens/Customer/AdditionalScreen'
 
 const Tab = createBottomTabNavigator()
 
@@ -13,9 +15,7 @@ const CustomerTabNavigator = () => {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName
-          if (route.name == 'QueryScreen') {
-            iconName = focused ? 'account-search' : 'account-search-outline'
-          } else if (route.name == 'MainScreen') {
+          if (route.name == 'MainScreen') {
             iconName = focused
               ? 'card-account-details'
               : 'card-account-details-outline'
@@ -38,24 +38,19 @@ const CustomerTabNavigator = () => {
       })}
     >
       <Tab.Screen
-        options={{ headerShown: false, tabBarLabel: 'Consulta' }}
-        name="QueryScreen"
-        component={QueryScreen}
-      />
-      <Tab.Screen
         options={{ headerShown: false, tabBarLabel: 'Principal' }}
         name="MainScreen"
-        component={QueryScreen}
+        component={MainScreen}
       />
       <Tab.Screen
         options={{ headerShown: false, tabBarLabel: 'Endereço' }}
         name="AddressScreen"
-        component={QueryScreen}
+        component={AddressScreen}
       />
       <Tab.Screen
         options={{ headerShown: false, tabBarLabel: 'Adicionais' }}
         name="AdditionalScreen"
-        component={QueryScreen}
+        component={AdditionalScreen}
       />
     </Tab.Navigator>
   )

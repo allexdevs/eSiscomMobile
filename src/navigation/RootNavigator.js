@@ -8,7 +8,7 @@ import HomeScreen from '../screens/HomeScreen'
 
 // navigators
 import TabNavigatorSync from '../navigation/SyncNavigator'
-// import CustomerTabNavigator from './CustomerNavigator'
+import CustomerTabNavigator from './CustomerNavigator'
 import QueryScreen from '../screens/QueryScreen'
 
 const Stack = createNativeStackNavigator()
@@ -40,6 +40,11 @@ const RootNavigator = () => {
         options={{ headerShown: false }}
         name="QueryScreen"
         component={QueryScreen}
+      />
+      <Stack.Screen
+        options={{ headerShown: false }}
+        name="MainPersonalDataScreen"
+        component={CustomerTabNavigator}
       />
     </Stack.Navigator>
   )

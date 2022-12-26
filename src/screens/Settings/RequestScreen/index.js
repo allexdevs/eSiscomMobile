@@ -15,7 +15,7 @@ import {
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 // mock values
-import { paymentMethods } from '../../mock/paymentMethods'
+import { paymentMethods } from '../../../mock/paymentMethods'
 
 const RequestScreen = ({ navigation }) => {
   const [paymentMethod, setPaymentMethod] = useState('')

@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native'
 
 // other styles
-import SharedStyles from '../../shared/styles/ScreenStyle.js'
+import SharedStyles from '../../../shared/styles/ScreenStyle.js'
 
 const Styles = StyleSheet.create({
   container: SharedStyles.screenTemplate,

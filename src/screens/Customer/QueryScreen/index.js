@@ -12,15 +12,16 @@ import {
   Input,
 } from 'native-base'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import ListEmptyItem from '../../components/ListEmptyItem'
-import { filters } from '../../mock/filterCustomers'
+import ListEmptyItem from '../../../components/ListEmptyItem'
+import { filters } from '../../../mock/filterCustomers'
 import {
   getCustomers,
   getCustomerByName,
-  getCustomerById
-} from '../../services/customersService'
-import ListItem from '../../components/ListItem'
+  getCustomerById,
+} from '../../../services/customersService'
+import ListItem from '../../../components/ListItem'
 import { RefreshControl } from 'react-native'
+import HeaderComponent from '../../../components/HeaderComponent'
 
 const QueryScreen = ({ navigation }) => {
   const [filterValue, setFilterValue] = useState('')
@@ -48,14 +49,18 @@ const QueryScreen = ({ navigation }) => {
         setCustomers([])
         getCustomerByName(searchValue)
           .then(res => {
-            res.status == 'success' ? setCustomers(res.payload) : setCustomers([])
+            res.status == 'success'
+              ? setCustomers(res.payload)
+              : setCustomers([])
           })
           .catch(error => console.log(error))
       } else {
         setCustomers([])
         getCustomerById(searchValue)
           .then(res => {
-            res.status == 'success' ? setCustomers([res.payload]) : setCustomers([])
+            res.status == 'success'
+              ? setCustomers([res.payload])
+              : setCustomers([])
           })
           .catch(error => console.log(error))
       }
@@ -91,26 +96,10 @@ const QueryScreen = ({ navigation }) => {
 
   return (
     <NativeBaseProvider>
-      <Box bgColor="amber.500" py="2" px="2" mb="4" shadow={8}>
-        <HStack alignItems="center">
-          <Button
-            onPress={() => navigation.navigate('HomeScreen')}
-            leftIcon={
-              <Icon
-                as={MaterialCommunityIcons}
-                name="arrow-left"
-                size="md"
-                color="white"
-              />
-            }
-            variant="ghost"
-            borderRadius={50}
-          ></Button>
-          <Text ml="4" color="white" fontWeight="bold" fontSize="lg">
-            Clientes
-          </Text>
-        </HStack>
-      </Box>
+      <HeaderComponent
+        title="Clientes"
+        link={() => navigation.navigate('HomeScreen')}
+      />
 
       <Box
         justifyContent="center"
@@ -131,7 +120,7 @@ const QueryScreen = ({ navigation }) => {
             placeholder="Filtro"
             accessibilityLabel="Filter customers"
             onValueChange={item => setFilterValue(item)}
-            defaultValue="nome"
+            defaultValue="NOME"
             dropdownCloseIcon={
               <Icon
                 as={MaterialCommunityIcons}
@@ -190,8 +179,10 @@ const QueryScreen = ({ navigation }) => {
         </HStack>
       </Box>
 
-      <Box w='100%' px='4' mb='6'>
-      <Text fontWeight='bold' color='gray.500'>Histórico de Clientes</Text>
+      <Box w="100%" px="4" mb="6">
+        <Text fontWeight="bold" color="gray.500">
+          Histórico de Clientes
+        </Text>
       </Box>
 
       <FlatList
@@ -220,6 +211,7 @@ const QueryScreen = ({ navigation }) => {
         bgColor="amber.500"
         _pressed={{ bgColor: 'amber.600' }}
         icon={<Icon as={MaterialCommunityIcons} name="plus" color="white" />}
+        onPress={() => navigation.navigate('MainPersonalDataScreen')}
       />
     </NativeBaseProvider>
   )
