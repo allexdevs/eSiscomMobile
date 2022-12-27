@@ -7,7 +7,7 @@ import Styles from './styles'
 
 // images
 import logo from '../../assets/logo-light.png'
-import icon from '../../assets/mac-finder.png'
+import icon from '../../assets/eSiscom-Mobile-icon.jpeg'
 
 const SplashScreen = ({ navigation }) => {
   const logoAnim = useRef(new Animated.Value(0)).current
