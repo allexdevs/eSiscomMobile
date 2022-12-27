@@ -114,7 +114,7 @@ const MainScreen = ({ navigation }) => {
           togglePassword={() =>
             !togglePassword ? setTogglePassword(true) : setTogglePassword(false)
           }
-          mb={6}
+          mb="12"
         />
       </ScrollView>
     </NativeBaseProvider>

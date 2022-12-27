@@ -3,13 +3,13 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 // screens
 import SplashScreen from '../screens/SplashScreen'
-import LoginScreen from '../screens/LoginScreen'
+import LoginScreen from '../screens/Authentication/LoginScreen'
 import HomeScreen from '../screens/HomeScreen'
 
 // navigators
 import TabNavigatorSync from '../navigation/SyncNavigator'
 import CustomerTabNavigator from './CustomerNavigator'
-import QueryScreen from '../screens/QueryScreen'
+import QueryScreen from '../screens/Customer/QueryScreen'
 
 const Stack = createNativeStackNavigator()
 

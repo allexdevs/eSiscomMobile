@@ -3,8 +3,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 // screens
-import ConnectionScreen from '../screens/ConnectionScreen'
-import RequestScreen from '../screens/RequestScreen'
+import ConnectionScreen from '../screens/Settings/ConnectionScreen'
+import RequestScreen from '../screens/Settings/RequestScreen'
 
 const Tab = createBottomTabNavigator()
 

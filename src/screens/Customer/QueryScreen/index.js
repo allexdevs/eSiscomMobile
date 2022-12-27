@@ -1,16 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react'
-import {
-  NativeBaseProvider,
-  HStack,
-  Box,
-  Text,
-  Icon,
-  Button,
-  Fab,
-  FlatList,
-  Select,
-  Input,
-} from 'native-base'
+import { NativeBaseProvider, Box, Text, Icon, Fab, FlatList } from 'native-base'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import ListEmptyItem from '../../../components/ListEmptyItem'
 import { filters } from '../../../mock/filterCustomers'
@@ -22,6 +11,7 @@ import {
 import ListItem from '../../../components/ListItem'
 import { RefreshControl } from 'react-native'
 import HeaderComponent from '../../../components/HeaderComponent'
+import SearchBarComponent from '../../../components/SearchBarComponent'
 
 const QueryScreen = ({ navigation }) => {
   const [filterValue, setFilterValue] = useState('')
@@ -101,83 +91,15 @@ const QueryScreen = ({ navigation }) => {
         link={() => navigation.navigate('HomeScreen')}
       />
 
-      <Box
-        justifyContent="center"
-        h="12"
-        mb="6"
-        borderWidth={1}
-        borderColor="gray.300"
-        mx="4"
-        borderRadius="30"
-      >
-        <HStack alignItems={'center'}>
-          <Select
-            width="90"
-            textAlign="center"
-            color="gray.500"
-            variant="unstyled"
-            selectedValue={filterValue}
-            placeholder="Filtro"
-            accessibilityLabel="Filter customers"
-            onValueChange={item => setFilterValue(item)}
-            defaultValue="NOME"
-            dropdownCloseIcon={
-              <Icon
-                as={MaterialCommunityIcons}
-                name="chevron-down-circle-outline"
-                size="md"
-                color="gray.400"
-              />
-            }
-            dropdownOpenIcon={
-              <Icon
-                as={MaterialCommunityIcons}
-                name="chevron-up-circle-outline"
-                size="md"
-                color="gray.400"
-              />
-            }
-          >
-            {filters.map(filter => (
-              <Select.Item
-                key={`filter-${filter.id}`}
-                value={filter.value}
-                label={filter.text}
-              />
-            ))}
-          </Select>
-          <Input
-            width="70%"
-            variant="unstyled"
-            placeholder="Pesquisar"
-            ml="2"
-            color="gray.500"
-            keyboardType={filterValue == 'NOME' ? 'default' : 'numeric'}
-            keyboardAppearance="default"
-            returnKeyType="done"
-            value={searchValue}
-            onChangeText={text => setSearchValue(text)}
-            InputRightElement={
-              <Button
-                _pressed={{
-                  bgColor: 'gray.200',
-                }}
-                leftIcon={
-                  <Icon
-                    as={MaterialCommunityIcons}
-                    name="delete"
-                    size="md"
-                    color="gray.500"
-                  />
-                }
-                variant="ghost"
-                borderRadius="50"
-                onPress={() => clearSearchValue()}
-              />
-            }
-          />
-        </HStack>
-      </Box>
+      <SearchBarComponent
+        filterPlaceholder="Filtrar"
+        filterList={filters}
+        changeFilterValue={text => setFilterValue(text)}
+        filterValue={filterValue}
+        searchValue={searchValue}
+        changeSearchValue={text => setSearchValue(text)}
+        clearSearchValue={() => clearSearchValue()}
+      />
 
       <Box w="100%" px="4" mb="6">
         <Text fontWeight="bold" color="gray.500">

@@ -12,13 +12,13 @@ import {
   Icon,
 } from 'native-base'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import { authenticate } from '../../services/loginService'
+import { authenticate } from '../../../services/loginService'
 
 // styles
 import Styles from './styles'
 
 // assets
-import logo from '../../assets/logo-light.png'
+import logo from '../../../assets/logo-light.png'
 
 const LoginScreen = ({ navigation }) => {
   const [username, setUsername] = useState('')
