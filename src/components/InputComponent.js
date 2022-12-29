@@ -15,9 +15,11 @@ const InputComponent = ({
   passwordIcon,
   togglePassword,
   inputType,
+  containerWidth = '100%',
+  editable = false,
 }) => {
   return (
-    <Box w="100%" px="4" my="2">
+    <Box w={containerWidth} px="4" my="2">
       <Input
         _focus={{
           borderColor: 'amber.500',
@@ -79,6 +81,7 @@ const InputComponent = ({
         type={inputType}
         keyboardType={keyboardType}
         returnKeyType={keyboardButton}
+        isDisabled={editable}
       />
     </Box>
   )

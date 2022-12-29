@@ -18,9 +18,11 @@ const MainScreen = ({ navigation }) => {
         title="Principal"
         link={() => navigation.navigate('QueryScreen')}
       />
-      <ScrollView _contentContainerStyle={{
-        pb: 12
-      }}>
+      <ScrollView
+        _contentContainerStyle={{
+          pb: 12,
+        }}
+      >
         <InputComponent
           leftIcon="text"
           rightIcon="delete"
