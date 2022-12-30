@@ -15,7 +15,8 @@ const SelectComponent = ({
   borderWidth,
   marginVertical,
   editable = false,
-  clearValue
+  clearValue,
+  marginHorizontal = '4',
 }) => {
   return (
     <Box
@@ -24,10 +25,10 @@ const SelectComponent = ({
       marginY={marginVertical}
       borderWidth={borderWidth}
       borderColor="gray.300"
-      mx="4"
+      mx={marginHorizontal}
       borderRadius="30"
     >
-      <HStack alignItems='center' >
+      <HStack alignItems="center">
         <IconButton
           icon={
             <Icon
@@ -37,13 +38,14 @@ const SelectComponent = ({
               color="gray.400"
             />
           }
-          borderRadius='full'
+          borderRadius="full"
           ml={1}
-          mr='-5'
+          mr="-5"
           _pressed={{
-            bgColor: 'gray.200'
+            bgColor: 'gray.200',
           }}
           onPress={clearValue}
+          isDisabled={editable}
         />
         <Select
           flexGrow={1}

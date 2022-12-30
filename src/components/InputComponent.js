@@ -17,9 +17,10 @@ const InputComponent = ({
   inputType,
   containerWidth = '100%',
   editable = false,
+  paddingHorizontal = '4',
 }) => {
   return (
-    <Box w={containerWidth} px="4" my="2">
+    <Box w={containerWidth} px={paddingHorizontal} my="2">
       <Input
         _focus={{
           borderColor: 'amber.500',
