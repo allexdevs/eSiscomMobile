@@ -16,6 +16,8 @@ import ModalComponent from '../../../components/ModalComponent'
 
 import { states } from '../../../mock/listOfStates'
 
+import { CustomerContext } from '../../../contexts/customerContext'
+
 const AddressScreen = ({ navigation }) => {
   const [address, setAddress] = React.useState('')
   const [number, setNumber] = React.useState('')
@@ -26,6 +28,8 @@ const AddressScreen = ({ navigation }) => {
   const [city, setCity] = React.useState('')
 
   const [isOpen, setIsOpen] = React.useState(false)
+
+  const { nome } = React.useContext(CustomerContext)
 
   return (
     <NativeBaseProvider>
