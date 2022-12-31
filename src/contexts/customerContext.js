@@ -1,5 +1,4 @@
 import React, { createContext, useState } from 'react'
-import { SweetAlert } from 'react-native-sweet-alert'
 
 export const CustomerContext = createContext({})
 
