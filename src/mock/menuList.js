@@ -47,6 +47,6 @@ const items = [
     subtitle: 'Importar/Exportar Dados',
     route: 'Sync',
   },
-]
+];
 
-export { items }
+export default items;

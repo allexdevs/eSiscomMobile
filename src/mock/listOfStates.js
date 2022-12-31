@@ -26,6 +26,6 @@ const states = [
   { id: 25, uf: 'SP', value: 'sp', label: 'São Paulo' },
   { id: 26, uf: 'SE', value: 'se', label: 'Sergipe' },
   { id: 27, uf: 'TO', value: 'to', label: 'Tocantins' },
-]
+];
 
-export { states }
+export default states;

@@ -1,8 +1,9 @@
-import React from 'react'
-import { HStack, Select, Icon, Input, Button, Box } from 'native-base'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import React from 'react';
+import { HStack, Select, Icon, Input, Button, Box } from 'native-base';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import PropTypes from 'prop-types';
 
-const SearchBarComponent = ({
+function SearchBarComponent({
   filterValue,
   changeFilterValue,
   filterPlaceholder,
@@ -10,7 +11,7 @@ const SearchBarComponent = ({
   searchValue,
   changeSearchValue,
   clearSearchValue,
-}) => {
+}) {
   return (
     <Box
       justifyContent="center"
@@ -21,7 +22,7 @@ const SearchBarComponent = ({
       mx="4"
       borderRadius="30"
     >
-      <HStack alignItems={'center'}>
+      <HStack alignItems="center">
         <Select
           width="90"
           textAlign="center"
@@ -49,12 +50,8 @@ const SearchBarComponent = ({
             />
           }
         >
-          {filterList.map(filter => (
-            <Select.Item
-              key={`filter-${filter.id}`}
-              value={filter.value}
-              label={filter.text}
-            />
+          {filterList.map((filter) => (
+            <Select.Item key={`filter-${filter.id}`} value={filter.value} label={filter.text} />
           ))}
         </Select>
         <Input
@@ -63,7 +60,7 @@ const SearchBarComponent = ({
           placeholder="Pesquisar"
           ml="2"
           color="gray.500"
-          keyboardType={filterValue == 'NOME' ? 'default' : 'numeric'}
+          keyboardType={filterValue === 'NOME' ? 'default' : 'numeric'}
           keyboardAppearance="default"
           returnKeyType="done"
           value={searchValue}
@@ -74,12 +71,7 @@ const SearchBarComponent = ({
                 bgColor: 'gray.200',
               }}
               leftIcon={
-                <Icon
-                  as={MaterialCommunityIcons}
-                  name="delete"
-                  size="md"
-                  color="gray.500"
-                />
+                <Icon as={MaterialCommunityIcons} name="delete" size="md" color="gray.500" />
               }
               variant="ghost"
               borderRadius="50"
@@ -89,7 +81,33 @@ const SearchBarComponent = ({
         />
       </HStack>
     </Box>
-  )
+  );
 }
 
-export default SearchBarComponent
+SearchBarComponent.propTypes = {
+  filterValue: PropTypes.string,
+  changeFilterValue: PropTypes.func,
+  filterPlaceholder: PropTypes.string,
+  filterList: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number,
+      text: PropTypes.string,
+      value: PropTypes.string,
+    })
+  ),
+  searchValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  changeSearchValue: PropTypes.func,
+  clearSearchValue: PropTypes.func,
+};
+
+SearchBarComponent.defaultProps = {
+  filterValue: '',
+  changeFilterValue: () => {},
+  filterPlaceholder: '',
+  filterList: [],
+  searchValue: '',
+  changeSearchValue: () => {},
+  clearSearchValue: () => {},
+};
+
+export default SearchBarComponent;

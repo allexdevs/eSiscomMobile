@@ -9,6 +9,6 @@ const filters = [
     text: 'Código',
     value: 'CODIGO',
   },
-]
+];
 
-export { filters }
+export default filters;

@@ -1,16 +1,9 @@
-import React from 'react'
-import {
-  NativeBaseProvider,
-  Box,
-  Icon,
-  Text,
-  Button,
-  HStack,
-  VStack,
-} from 'native-base'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+import React from 'react';
+import { NativeBaseProvider, Box, Icon, Text, Button, HStack, VStack } from 'native-base';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import PropTypes from 'prop-types';
 
-const ListItem = ({ title, subtitle, address, link }) => {
+function ListItem({ title, subtitle, address, link }) {
   return (
     <NativeBaseProvider>
       <Box
@@ -24,12 +17,7 @@ const ListItem = ({ title, subtitle, address, link }) => {
         justifyContent="center"
       >
         <HStack alignItems="center" px="4">
-          <Icon
-            as={MaterialCommunityIcons}
-            name="account-circle"
-            size="lg"
-            color="amber.500"
-          />
+          <Icon as={MaterialCommunityIcons} name="account-circle" size="lg" color="amber.500" />
           <VStack ml="4" justifyContent="center">
             <Text color="gray.600">{title}</Text>
             <Text color="gray.500" fontSize={12}>
@@ -59,7 +47,21 @@ const ListItem = ({ title, subtitle, address, link }) => {
         </HStack>
       </Box>
     </NativeBaseProvider>
-  )
+  );
 }
 
-export default ListItem
+ListItem.propTypes = {
+  title: PropTypes.string,
+  subtitle: PropTypes.string,
+  address: PropTypes.string,
+  link: PropTypes.func,
+};
+
+ListItem.defaultProps = {
+  title: '',
+  subtitle: '',
+  address: '',
+  link: () => {},
+};
+
+export default ListItem;

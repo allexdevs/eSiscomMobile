@@ -1,16 +1,16 @@
-import React from 'react'
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
+import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // screens
-import MainScreen from '../screens/Customer/MainScreen'
-import AddressScreen from '../screens/Customer/AddressScreen'
-import AdditionalScreen from '../screens/Customer/AdditionalScreen'
+import MainScreen from '../screens/Customer/MainScreen';
+import AddressScreen from '../screens/Customer/AddressScreen';
+import AdditionalScreen from '../screens/Customer/AdditionalScreen';
 
 // providers
-import CustomerProvider from '../contexts/customerContext'
+import CustomerProvider from '../contexts/customerContext';
 
-const Tab = createBottomTabNavigator()
+const Tab = createBottomTabNavigator();
 
 const CustomerTabNavigator = () => {
   return (
@@ -18,20 +18,16 @@ const CustomerTabNavigator = () => {
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
-            let iconName
+            let iconName;
             if (route.name == 'MainScreen') {
-              iconName = focused
-                ? 'card-account-details'
-                : 'card-account-details-outline'
+              iconName = focused ? 'card-account-details' : 'card-account-details-outline';
             } else if (route.name == 'AddressScreen') {
-              iconName = focused
-                ? 'map-marker-account'
-                : 'map-marker-account-outline'
+              iconName = focused ? 'map-marker-account' : 'map-marker-account-outline';
             } else if (route.name == 'AdditionalScreen') {
-              iconName = focused ? 'account-plus' : 'account-plus-outline'
+              iconName = focused ? 'account-plus' : 'account-plus-outline';
             }
 
-            return <Icon name={iconName} size={size} color={color} />
+            return <Icon name={iconName} size={size} color={color} />;
           },
           tabBarActiveTintColor: '#faba24',
           tabBarInactiveTintColor: 'dimgrey',
@@ -58,7 +54,7 @@ const CustomerTabNavigator = () => {
         />
       </Tab.Navigator>
     </CustomerProvider>
-  )
-}
+  );
+};
 
-export default CustomerTabNavigator
+export default CustomerTabNavigator;

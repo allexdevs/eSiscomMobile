@@ -1,22 +1,22 @@
-import React from 'react'
-import { Modal, Button } from 'native-base'
+import React from 'react';
+import { Modal, Button } from 'native-base';
+import PropTypes from 'prop-types';
 
-const ModalComponent = ({
+function ModalComponent({
   isOpen,
   onClose,
   title,
-  children,
   onCancel,
   onConfirm,
   cancelButtonLabel,
   confirmButtonLabel,
-}) => {
+}) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <Modal.Content>
         <Modal.CloseButton />
         <Modal.Header>{title}</Modal.Header>
-        <Modal.Body>{children}</Modal.Body>
+        <Modal.Body> </Modal.Body>
         <Modal.Footer>
           <Button.Group space={2}>
             <Button
@@ -41,7 +41,27 @@ const ModalComponent = ({
         </Modal.Footer>
       </Modal.Content>
     </Modal>
-  )
+  );
 }
 
-export default ModalComponent
+ModalComponent.propTypes = {
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
+  title: PropTypes.string,
+  onCancel: PropTypes.func,
+  onConfirm: PropTypes.func,
+  cancelButtonLabel: PropTypes.string,
+  confirmButtonLabel: PropTypes.string,
+};
+
+ModalComponent.defaultProps = {
+  isOpen: false,
+  onClose: () => {},
+  title: '',
+  onCancel: () => {},
+  onConfirm: () => {},
+  cancelButtonLabel: '',
+  confirmButtonLabel: '',
+};
+
+export default ModalComponent;

@@ -1,36 +1,28 @@
-import React, { useState, useEffect } from 'react'
-import { Image } from 'react-native'
-import SweetAlert from 'react-native-sweet-alert'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import {
-  NativeBaseProvider,
-  Input,
-  Stack,
-  Text,
-  Button,
-  ScrollView,
-  Icon,
-} from 'native-base'
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
-import { authenticate } from '../../../services/loginService'
+import React, { useState, useEffect } from 'react';
+import { Image } from 'react-native';
+import SweetAlert from 'react-native-sweet-alert';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { NativeBaseProvider, Input, Stack, Text, Button, ScrollView, Icon } from 'native-base';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import authenticate from '../../../services/loginService';
 
 // styles
-import Styles from './styles'
+import Styles from './styles';
 
 // assets
-import logo from '../../../assets/logo-light.png'
+import logo from '../../../assets/logo-light.png';
 
-const LoginScreen = ({ navigation }) => {
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [settings, setSettings] = useState({})
-  const [visibility, setVisibility] = useState('password')
+function LoginScreen({ navigation }) {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const [settings, setSettings] = useState({});
+  const [visibility, setVisibility] = useState('password');
 
-  const clearUsername = () => setUsername('')
-  const clearPassword = () => setPassword('')
+  const clearUsername = () => setUsername('');
+  const clearPassword = () => setPassword('');
   const toggleVisibility = () => {
-    visibility == 'password' ? setVisibility('text') : setVisibility('password')
-  }
+    visibility == 'password' ? setVisibility('text') : setVisibility('password');
+  };
 
   const runLogin = () => {
     if (username !== '' && password !== '') {
@@ -42,7 +34,7 @@ const LoginScreen = ({ navigation }) => {
         !settings.port
       ) {
         if (username === 'FOCO' && password === '1931') {
-          navigation.navigate('SyncScreen')
+          navigation.navigate('SyncScreen');
         } else {
           SweetAlert.showAlertWithOptions(
             {
@@ -51,12 +43,12 @@ const LoginScreen = ({ navigation }) => {
               confirmButtonTitle: 'Ok',
               style: 'warning',
             },
-            callback => console.log(callback),
-          )
+            (callback) => console.log(callback)
+          );
         }
       } else {
         authenticate(username, password)
-          .then(res => {
+          .then((res) => {
             if (res.status === 'success') {
               SweetAlert.showAlertWithOptions(
                 {
@@ -65,11 +57,8 @@ const LoginScreen = ({ navigation }) => {
                   confirmButtonTitle: 'Ok',
                   style: 'success',
                 },
-                callback =>
-                  callback == 'accepted'
-                    ? navigation.navigate('HomeScreen')
-                    : null,
-              )
+                (callback) => (callback == 'accepted' ? navigation.navigate('HomeScreen') : null)
+              );
             } else {
               SweetAlert.showAlertWithOptions(
                 {
@@ -78,11 +67,11 @@ const LoginScreen = ({ navigation }) => {
                   confirmButtonTitle: 'Ok',
                   style: 'warning',
                 },
-                callback => console.log(callback),
-              )
+                (callback) => console.log(callback)
+              );
             }
           })
-          .catch(error => console.log(error))
+          .catch((error) => console.log(error));
       }
     } else {
       SweetAlert.showAlertWithOptions(
@@ -92,40 +81,40 @@ const LoginScreen = ({ navigation }) => {
           confirmButtonText: 'Ok',
           style: 'warning',
         },
-        callback => console.log(callback),
-      )
+        (callback) => console.log(callback)
+      );
     }
-  }
+  };
 
-  const checkSettings = async () => {
+  async function checkSettings() {
     try {
-      const savedSettings = await AsyncStorage.getItem('settings')
-      return savedSettings != null ? JSON.parse(savedSettings) : {}
+      const savedSettings = await AsyncStorage.getItem('settings');
+      return savedSettings != null ? JSON.parse(savedSettings) : {};
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
   }
 
   useEffect(() => {
     const settingsVerification = navigation.addListener('focus', () => {
-      const config = checkSettings()
+      const config = checkSettings();
       config
-        .then(value => {
+        .then((value) => {
           const response = {
             host: value.host,
             database: value.database,
             username: value.username,
             password: value.password,
             port: value.port,
-          }
-          setSettings(response)
-          console.log(settings)
+          };
+          setSettings(response);
+          console.log(settings);
         })
-        .catch(error => console.log(error))
-    })
+        .catch((error) => console.log(error));
+    });
 
-    return settingsVerification
-  }, [navigation])
+    return settingsVerification;
+  }, [navigation]);
 
   return (
     <NativeBaseProvider>
@@ -137,24 +126,11 @@ const LoginScreen = ({ navigation }) => {
           </Text>
           <Input
             InputLeftElement={
-              <Icon
-                as={MaterialIcons}
-                name="person"
-                size="md"
-                ml="4"
-                color="gray.500"
-              />
+              <Icon as={MaterialIcons} name="person" size="md" ml="4" color="gray.500" />
             }
             InputRightElement={
               <Button
-                leftIcon={
-                  <Icon
-                    as={MaterialIcons}
-                    name="delete"
-                    size="md"
-                    color="gray.500"
-                  />
-                }
+                leftIcon={<Icon as={MaterialIcons} name="delete" size="md" color="gray.500" />}
                 borderRadius="50"
                 variant="ghost"
                 mr="1"
@@ -168,42 +144,24 @@ const LoginScreen = ({ navigation }) => {
             keyboardType="default"
             variant="rounded"
             focusOutlineColor="amber.500"
-            onChangeText={text => setUsername(text)}
+            onChangeText={(text) => setUsername(text)}
             value={username}
           />
           <Input
             InputLeftElement={
-              <Icon
-                as={MaterialIcons}
-                name="lock"
-                size="md"
-                ml="4"
-                color="gray.500"
-              />
+              <Icon as={MaterialIcons} name="lock" size="md" ml="4" color="gray.500" />
             }
             InputRightElement={
               <>
                 <Button
-                  leftIcon={
-                    <Icon
-                      as={MaterialIcons}
-                      name="delete"
-                      size="md"
-                      color="gray.500"
-                    />
-                  }
+                  leftIcon={<Icon as={MaterialIcons} name="delete" size="md" color="gray.500" />}
                   variant="ghost"
                   borderRadius="50"
                   onPress={() => clearPassword()}
                 />
                 <Button
                   leftIcon={
-                    <Icon
-                      as={MaterialIcons}
-                      name="visibility-off"
-                      size="md"
-                      color="gray.500"
-                    />
+                    <Icon as={MaterialIcons} name="visibility-off" size="md" color="gray.500" />
                   }
                   variant="ghost"
                   borderRadius="50"
@@ -219,15 +177,10 @@ const LoginScreen = ({ navigation }) => {
             type={visibility}
             focusOutlineColor="amber.500"
             mr="2"
-            onChangeText={text => setPassword(text)}
+            onChangeText={(text) => setPassword(text)}
             value={password}
           />
-          <Button
-            onPress={() => runLogin()}
-            w="40%"
-            mt="16"
-            colorScheme="amber"
-          >
+          <Button onPress={() => runLogin()} w="40%" mt="16" colorScheme="amber">
             Login
           </Button>
           <Button mt="4" mb="12" variant="ghost" colorScheme="amber">
@@ -236,7 +189,7 @@ const LoginScreen = ({ navigation }) => {
         </Stack>
       </ScrollView>
     </NativeBaseProvider>
-  )
+  );
 }
 
-export default LoginScreen
+export default LoginScreen;

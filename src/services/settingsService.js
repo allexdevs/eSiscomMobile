@@ -1,4 +1,4 @@
-import { URL_API } from '../shared/constants'
+import URL_API from '../shared/constants';
 
 const config = async (host, database, username, password, port) => {
   const request = await fetch(`${URL_API}/settings/config`, {
@@ -8,16 +8,16 @@ const config = async (host, database, username, password, port) => {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      host: host,
-      database: database,
-      username: username,
-      password: password,
-      port: port,
+      host,
+      database,
+      username,
+      password,
+      port,
     }),
-  })
+  });
 
-  const response = await request.json()
-  return response
-}
+  const response = await request.json();
+  return response;
+};
 
-export { config }
+export default config;

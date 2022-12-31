@@ -21,6 +21,6 @@ const paymentMethods = [
     id: 7,
     value: 'FINANCEIRA',
   },
-]
+];
 
-export { paymentMethods }
+export default paymentMethods;
