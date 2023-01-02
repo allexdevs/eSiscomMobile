@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -12,18 +13,18 @@ import CustomerProvider from '../contexts/customerContext';
 
 const Tab = createBottomTabNavigator();
 
-const CustomerTabNavigator = () => {
+function CustomerTabNavigator() {
   return (
     <CustomerProvider>
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
-            if (route.name == 'MainScreen') {
+            if (route.name === 'MainScreen') {
               iconName = focused ? 'card-account-details' : 'card-account-details-outline';
-            } else if (route.name == 'AddressScreen') {
+            } else if (route.name === 'AddressScreen') {
               iconName = focused ? 'map-marker-account' : 'map-marker-account-outline';
-            } else if (route.name == 'AdditionalScreen') {
+            } else if (route.name === 'AdditionalScreen') {
               iconName = focused ? 'account-plus' : 'account-plus-outline';
             }
 
@@ -55,6 +56,6 @@ const CustomerTabNavigator = () => {
       </Tab.Navigator>
     </CustomerProvider>
   );
-};
+}
 
 export default CustomerTabNavigator;

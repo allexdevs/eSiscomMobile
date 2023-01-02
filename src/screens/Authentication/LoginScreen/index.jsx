@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-console */
 /* eslint-disable consistent-return */
@@ -117,7 +118,7 @@ function LoginScreen({ navigation }) {
     });
 
     return settingsVerification;
-  }, [navigation, settings]);
+  }, [navigation]);
 
   return (
     <NativeBaseProvider>

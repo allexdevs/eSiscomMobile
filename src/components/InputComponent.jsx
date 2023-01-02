@@ -109,9 +109,9 @@ InputComponent.defaultProps = {
   passwordIcon: '',
   togglePassword: () => {},
   inputType: '',
-  containerWidth: '',
+  containerWidth: 0,
   editable: false,
-  paddingHorizontal: '',
+  paddingHorizontal: 0,
 };
 
 export default InputComponent;

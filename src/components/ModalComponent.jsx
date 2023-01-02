@@ -1,3 +1,5 @@
+/* eslint-disable react/require-default-props */
+/* eslint-disable react/forbid-prop-types */
 import React from 'react';
 import { Modal, Button } from 'native-base';
 import PropTypes from 'prop-types';
@@ -10,13 +12,14 @@ function ModalComponent({
   onConfirm,
   cancelButtonLabel,
   confirmButtonLabel,
+  children,
 }) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="xl">
       <Modal.Content>
         <Modal.CloseButton />
         <Modal.Header>{title}</Modal.Header>
-        <Modal.Body> </Modal.Body>
+        <Modal.Body>{children}</Modal.Body>
         <Modal.Footer>
           <Button.Group space={2}>
             <Button
@@ -45,6 +48,7 @@ function ModalComponent({
 }
 
 ModalComponent.propTypes = {
+  children: PropTypes.any,
   isOpen: PropTypes.bool,
   onClose: PropTypes.func,
   title: PropTypes.string,

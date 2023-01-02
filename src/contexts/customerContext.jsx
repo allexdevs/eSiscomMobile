@@ -1,5 +1,7 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable no-shadow */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { createContext, useState, useCallback } from 'react';
-import PropTypes from 'prop-types';
 
 export const CustomerContext = createContext({});
 
@@ -71,13 +73,5 @@ function CustomerProvider({ children }) {
 
   return <CustomerContext.Provider value={customerValues}>{children}</CustomerContext.Provider>;
 }
-
-CustomerProvider.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.element),
-};
-
-CustomerProvider.defaultProps = {
-  children: [],
-};
 
 export default CustomerProvider;

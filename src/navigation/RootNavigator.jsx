@@ -13,7 +13,7 @@ import QueryScreen from '../screens/Customer/QueryScreen';
 
 const Stack = createNativeStackNavigator();
 
-const RootNavigator = () => {
+function RootNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen options={{ headerShown: false }} name="SplashScreen" component={SplashScreen} />
@@ -32,6 +32,6 @@ const RootNavigator = () => {
       />
     </Stack.Navigator>
   );
-};
+}
 
 export default RootNavigator;

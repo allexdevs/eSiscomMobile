@@ -87,7 +87,7 @@ function ConnectionScreen({ navigation }) {
   return (
     <NativeBaseProvider>
       <ScrollView>
-        <Box bgColor="amber.500" py="2" px="2" shadow={8} mb="4">
+        <Box bgColor="amber.500" py="2" px="2" shadow="8" mb="4">
           <HStack alignItems="center">
             <Button
               onPress={() => navigation.navigate('LoginScreen')}

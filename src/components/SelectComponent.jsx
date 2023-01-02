@@ -84,7 +84,7 @@ SelectComponent.propTypes = {
 };
 
 SelectComponent.defaultProps = {
-  containerWidth: '',
+  containerWidth: 0,
   items: [],
   placeholder: '',
   defaultValue: '',
@@ -93,11 +93,11 @@ SelectComponent.defaultProps = {
   onValueChange: () => {},
   closeIcon: '',
   openIcon: '',
-  borderWidth: '',
-  marginVertical: '',
+  borderWidth: 0,
+  marginVertical: 0,
   editable: false,
   clearValue: () => {},
-  marginHorizontal: '',
+  marginHorizontal: 0,
 };
 
 export default SelectComponent;

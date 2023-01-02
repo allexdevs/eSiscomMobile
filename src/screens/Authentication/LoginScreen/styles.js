@@ -1,7 +1,8 @@
-import { StyleSheet } from 'react-native'
+/* eslint-disable import/extensions */
+import { StyleSheet } from 'react-native';
 
 // other styles
-import SharedStyles from '../../../shared/styles/ScreenStyle.js'
+import SharedStyles from '../../../shared/styles/ScreenStyle.js';
 
 const Styles = StyleSheet.create({
   container: SharedStyles.screenTemplate,
@@ -10,6 +11,6 @@ const Styles = StyleSheet.create({
     height: 80,
     marginTop: 56,
   },
-})
+});
 
-export default Styles
+export default Styles;

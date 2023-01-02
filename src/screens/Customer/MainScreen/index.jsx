@@ -21,6 +21,8 @@ function MainScreen({ navigation }) {
         }}
       >
         <InputComponent
+          containerWidth="100%"
+          paddingHorizontal="4"
           leftIcon="text"
           rightIcon="delete"
           placeholder="Nome"
@@ -37,6 +39,8 @@ function MainScreen({ navigation }) {
           }
         />
         <InputComponent
+          containerWidth="100%"
+          paddingHorizontal="4"
           leftIcon="note-text-outline"
           rightIcon="delete"
           placeholder="Nome Fantasia"
@@ -53,6 +57,8 @@ function MainScreen({ navigation }) {
           }
         />
         <InputComponent
+          containerWidth="100%"
+          paddingHorizontal="4"
           leftIcon="card-bulleted-outline"
           rightIcon="delete"
           placeholder="CPF/CNPJ"
@@ -69,6 +75,8 @@ function MainScreen({ navigation }) {
           }
         />
         <InputComponent
+          containerWidth="100%"
+          paddingHorizontal="4"
           leftIcon="card-text-outline"
           rightIcon="delete"
           placeholder="Inscrição Estadual / RG"
@@ -85,6 +93,8 @@ function MainScreen({ navigation }) {
           }
         />
         <InputComponent
+          containerWidth="100%"
+          paddingHorizontal="4"
           leftIcon="phone"
           rightIcon="delete"
           placeholder="Telefone"
@@ -101,6 +111,8 @@ function MainScreen({ navigation }) {
           }
         />
         <InputComponent
+          containerWidth="100%"
+          paddingHorizontal="4"
           leftIcon="email"
           rightIcon="delete"
           placeholder="Email"

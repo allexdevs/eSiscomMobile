@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 function HeaderComponent({ title, link }) {
   return (
-    <Box bgColor="amber.500" py="1" px="2" mb="4" shadow={8}>
+    <Box bgColor="amber.500" py="1" px="2" mb="4" shadow="8">
       <HStack alignItems="center">
         <Button
           onPress={link}
