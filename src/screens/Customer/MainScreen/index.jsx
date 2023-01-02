@@ -1,23 +1,20 @@
-import React, { useState } from 'react'
-import { NativeBaseProvider, ScrollView } from 'native-base'
-import HeaderComponent from '../../../components/HeaderComponent'
-import InputComponent from '../../../components/InputComponent'
+import React, { useState } from 'react';
+import { NativeBaseProvider, ScrollView } from 'native-base';
+import HeaderComponent from '../../../components/HeaderComponent';
+import InputComponent from '../../../components/InputComponent';
 
-const MainScreen = ({ navigation }) => {
-  const [name, setName] = useState('')
-  const [fantasyName, setFantasyName] = useState('')
-  const [cpfCnpj, setCpfCnpj] = useState('')
-  const [rgIe, setRgIe] = useState('')
-  const [phone, setPhone] = useState('')
-  const [email, setEmail] = useState('')
-  const [togglePassword, setTogglePassword] = useState(false)
+function MainScreen({ navigation }) {
+  const [name, setName] = useState('');
+  const [fantasyName, setFantasyName] = useState('');
+  const [cpfCnpj, setCpfCnpj] = useState('');
+  const [rgIe, setRgIe] = useState('');
+  const [phone, setPhone] = useState('');
+  const [email, setEmail] = useState('');
+  const [togglePassword, setTogglePassword] = useState(false);
 
   return (
     <NativeBaseProvider>
-      <HeaderComponent
-        title="Principal"
-        link={() => navigation.navigate('QueryScreen')}
-      />
+      <HeaderComponent title="Principal" link={() => navigation.navigate('QueryScreen')} />
       <ScrollView
         _contentContainerStyle={{
           pb: 12,
@@ -28,7 +25,7 @@ const MainScreen = ({ navigation }) => {
           rightIcon="delete"
           placeholder="Nome"
           value={name}
-          changeText={text => setName(text)}
+          changeText={(text) => setName(text)}
           clearValue={() => setName('')}
           inputType={!togglePassword ? 'text' : 'password'}
           keyboardButton="done"
@@ -44,7 +41,7 @@ const MainScreen = ({ navigation }) => {
           rightIcon="delete"
           placeholder="Nome Fantasia"
           value={fantasyName}
-          changeText={text => setFantasyName(text)}
+          changeText={(text) => setFantasyName(text)}
           clearValue={() => setFantasyName('')}
           inputType={!togglePassword ? 'text' : 'password'}
           keyboardButton="done"
@@ -60,7 +57,7 @@ const MainScreen = ({ navigation }) => {
           rightIcon="delete"
           placeholder="CPF/CNPJ"
           value={cpfCnpj}
-          changeText={text => setCpfCnpj(text)}
+          changeText={(text) => setCpfCnpj(text)}
           clearValue={() => setCpfCnpj('')}
           inputType={!togglePassword ? 'text' : 'password'}
           keyboardButton="done"
@@ -76,7 +73,7 @@ const MainScreen = ({ navigation }) => {
           rightIcon="delete"
           placeholder="Inscrição Estadual / RG"
           value={rgIe}
-          changeText={text => setRgIe(text)}
+          changeText={(text) => setRgIe(text)}
           clearValue={() => setRgIe('')}
           inputType={!togglePassword ? 'text' : 'password'}
           keyboardButton="done"
@@ -92,7 +89,7 @@ const MainScreen = ({ navigation }) => {
           rightIcon="delete"
           placeholder="Telefone"
           value={phone}
-          changeText={text => setPhone(text)}
+          changeText={(text) => setPhone(text)}
           clearValue={() => setPhone('')}
           inputType={!togglePassword ? 'text' : 'password'}
           keyboardButton="done"
@@ -108,7 +105,7 @@ const MainScreen = ({ navigation }) => {
           rightIcon="delete"
           placeholder="Email"
           value={email}
-          changeText={text => setEmail(text)}
+          changeText={(text) => setEmail(text)}
           clearValue={() => setEmail('')}
           inputType={!togglePassword ? 'text' : 'password'}
           keyboardButton="done"
@@ -122,7 +119,7 @@ const MainScreen = ({ navigation }) => {
         />
       </ScrollView>
     </NativeBaseProvider>
-  )
+  );
 }
 
-export default MainScreen
+export default MainScreen;

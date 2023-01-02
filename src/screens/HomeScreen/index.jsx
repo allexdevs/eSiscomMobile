@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   NativeBaseProvider,
   Stack,
@@ -10,16 +10,16 @@ import {
   Box,
   Text,
   Button,
-} from 'native-base'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
+} from 'native-base';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 // assets
-import logo from '../../assets/logo-light.png'
+import logo from '../../assets/logo-light.png';
 
 // mocks
-import { items } from '../../mock/menuList'
+import items from '../../mock/menuList';
 
-const HomeScreen = ({ navigation }) => {
+function HomeScreen({ navigation }) {
   return (
     <NativeBaseProvider>
       <Stack alignItems="center">
@@ -27,14 +27,10 @@ const HomeScreen = ({ navigation }) => {
         <FlatList
           w="90%"
           data={items}
-          ListFooterComponent={<Box height="200"></Box>}
+          ListFooterComponent={<Box height="200" />}
           renderItem={({ item }) => (
             <Box mb="4">
-              <HStack
-                space={[5, 0]}
-                alignItems="center"
-                justifyContent="flex-start"
-              >
+              <HStack space={[5, 0]} alignItems="center" justifyContent="flex-start">
                 <Icon
                   as={MaterialCommunityIcons}
                   name={item.leftIcon}
@@ -68,11 +64,11 @@ const HomeScreen = ({ navigation }) => {
               </HStack>
             </Box>
           )}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
         />
       </Stack>
     </NativeBaseProvider>
-  )
+  );
 }
 
-export default HomeScreen
+export default HomeScreen;

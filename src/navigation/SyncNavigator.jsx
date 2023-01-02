@@ -1,6 +1,3 @@
-/* eslint-disable func-names */
-/* eslint-disable react/no-unstable-nested-components */
-/* eslint-disable object-shorthand */
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -15,7 +12,7 @@ function TabNavigatorSync() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
-        tabBarIcon: function ({ focused, color, size }) {
+        tabBarIcon({ focused, color, size }) {
           let iconName;
           if (route.name === 'Connection') {
             iconName = focused ? 'network' : 'network-outline';

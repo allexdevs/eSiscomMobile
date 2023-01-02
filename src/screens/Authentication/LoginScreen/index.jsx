@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable no-console */
+/* eslint-disable consistent-return */
 import React, { useState, useEffect } from 'react';
 import { Image } from 'react-native';
 import SweetAlert from 'react-native-sweet-alert';
@@ -21,7 +24,7 @@ function LoginScreen({ navigation }) {
   const clearUsername = () => setUsername('');
   const clearPassword = () => setPassword('');
   const toggleVisibility = () => {
-    visibility == 'password' ? setVisibility('text') : setVisibility('password');
+    visibility === 'password' ? setVisibility('text') : setVisibility('password');
   };
 
   const runLogin = () => {
@@ -57,7 +60,7 @@ function LoginScreen({ navigation }) {
                   confirmButtonTitle: 'Ok',
                   style: 'success',
                 },
-                (callback) => (callback == 'accepted' ? navigation.navigate('HomeScreen') : null)
+                (callback) => (callback === 'accepted' ? navigation.navigate('HomeScreen') : null)
               );
             } else {
               SweetAlert.showAlertWithOptions(
@@ -114,7 +117,7 @@ function LoginScreen({ navigation }) {
     });
 
     return settingsVerification;
-  }, [navigation]);
+  }, [navigation, settings]);
 
   return (
     <NativeBaseProvider>
