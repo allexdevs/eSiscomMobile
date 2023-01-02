@@ -16,6 +16,7 @@ import SelectComponent from '../../../components/SelectComponent';
 import ModalComponent from '../../../components/ModalComponent';
 
 import states from '../../../mock/listOfStates';
+import FabButtonComponent from '../../../components/FabButtonComponent';
 
 function AddressScreen({ navigation }) {
   const [address, setAddress] = React.useState('');
@@ -34,7 +35,7 @@ function AddressScreen({ navigation }) {
 
       <ScrollView
         _contentContainerStyle={{
-          pb: 12,
+          pb: 16,
         }}
       >
         <InputComponent
@@ -320,6 +321,8 @@ function AddressScreen({ navigation }) {
           rightIcon="delete"
         />
       </ScrollView>
+
+      <FabButtonComponent onPress={() => {}} />
     </NativeBaseProvider>
   );
 }

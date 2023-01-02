@@ -1,23 +1,37 @@
-import React, { useState } from 'react';
+/* eslint-disable no-console */
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useContext } from 'react';
 import { NativeBaseProvider, ScrollView } from 'native-base';
 import HeaderComponent from '../../../components/HeaderComponent';
 import InputComponent from '../../../components/InputComponent';
 
+import { CustomerContext } from '../../../contexts/customerContext';
+import FabButtonComponent from '../../../components/FabButtonComponent';
+
 function MainScreen({ navigation }) {
-  const [name, setName] = useState('');
-  const [fantasyName, setFantasyName] = useState('');
-  const [cpfCnpj, setCpfCnpj] = useState('');
-  const [rgIe, setRgIe] = useState('');
-  const [phone, setPhone] = useState('');
-  const [email, setEmail] = useState('');
   const [togglePassword, setTogglePassword] = useState(false);
+
+  const {
+    name,
+    fantasyName,
+    cpfCnpj,
+    rgIe,
+    phone,
+    email,
+    fillName,
+    fillFantasyName,
+    fillCpfCnpj,
+    fillRgIe,
+    fillPhone,
+    fillEmail,
+  } = useContext(CustomerContext);
 
   return (
     <NativeBaseProvider>
       <HeaderComponent title="Principal" link={() => navigation.navigate('QueryScreen')} />
       <ScrollView
         _contentContainerStyle={{
-          pb: 12,
+          pb: 16,
         }}
       >
         <InputComponent
@@ -27,8 +41,8 @@ function MainScreen({ navigation }) {
           rightIcon="delete"
           placeholder="Nome"
           value={name}
-          changeText={(text) => setName(text)}
-          clearValue={() => setName('')}
+          changeText={(text) => fillName(text)}
+          clearValue={() => fillName('')}
           inputType={!togglePassword ? 'text' : 'password'}
           keyboardButton="done"
           keyboardType="default"
@@ -45,8 +59,8 @@ function MainScreen({ navigation }) {
           rightIcon="delete"
           placeholder="Nome Fantasia"
           value={fantasyName}
-          changeText={(text) => setFantasyName(text)}
-          clearValue={() => setFantasyName('')}
+          changeText={(text) => fillFantasyName(text)}
+          clearValue={() => fillFantasyName('')}
           inputType={!togglePassword ? 'text' : 'password'}
           keyboardButton="done"
           keyboardType="default"
@@ -63,8 +77,8 @@ function MainScreen({ navigation }) {
           rightIcon="delete"
           placeholder="CPF/CNPJ"
           value={cpfCnpj}
-          changeText={(text) => setCpfCnpj(text)}
-          clearValue={() => setCpfCnpj('')}
+          changeText={(text) => fillCpfCnpj(text)}
+          clearValue={() => fillCpfCnpj('')}
           inputType={!togglePassword ? 'text' : 'password'}
           keyboardButton="done"
           keyboardType="numeric"
@@ -81,8 +95,8 @@ function MainScreen({ navigation }) {
           rightIcon="delete"
           placeholder="Inscrição Estadual / RG"
           value={rgIe}
-          changeText={(text) => setRgIe(text)}
-          clearValue={() => setRgIe('')}
+          changeText={(text) => fillRgIe(text)}
+          clearValue={() => fillRgIe('')}
           inputType={!togglePassword ? 'text' : 'password'}
           keyboardButton="done"
           keyboardType="numeric"
@@ -99,8 +113,8 @@ function MainScreen({ navigation }) {
           rightIcon="delete"
           placeholder="Telefone"
           value={phone}
-          changeText={(text) => setPhone(text)}
-          clearValue={() => setPhone('')}
+          changeText={(text) => fillPhone(text)}
+          clearValue={() => fillPhone('')}
           inputType={!togglePassword ? 'text' : 'password'}
           keyboardButton="done"
           keyboardType="numeric"
@@ -117,8 +131,8 @@ function MainScreen({ navigation }) {
           rightIcon="delete"
           placeholder="Email"
           value={email}
-          changeText={(text) => setEmail(text)}
-          clearValue={() => setEmail('')}
+          changeText={(text) => fillEmail(text)}
+          clearValue={() => fillEmail('')}
           inputType={!togglePassword ? 'text' : 'password'}
           keyboardButton="done"
           keyboardType="default"
@@ -130,6 +144,12 @@ function MainScreen({ navigation }) {
           mb="12"
         />
       </ScrollView>
+
+      <FabButtonComponent
+        onPress={() => {
+          console.log(name, fantasyName, cpfCnpj, rgIe, phone, email);
+        }}
+      />
     </NativeBaseProvider>
   );
 }
