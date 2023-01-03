@@ -7,7 +7,21 @@ import { CustomerContext } from '../../../contexts/customerContext';
 import FabButtonComponent from '../../../components/FabButtonComponent';
 
 function AdditionalScreen({ navigation }) {
-  const { additional, fillAdditional } = useContext(CustomerContext);
+  const {
+    name,
+    fantasyName,
+    cpfCnpj,
+    phone,
+    email,
+    address,
+    number,
+    district,
+    zipCode,
+    state,
+    city,
+    additional,
+    fillAdditional,
+  } = useContext(CustomerContext);
 
   return (
     <NativeBaseProvider>
@@ -18,7 +32,20 @@ function AdditionalScreen({ navigation }) {
         value={additional}
         clearValue={() => fillAdditional('')}
       />
-      <FabButtonComponent onPress={() => {}} />
+
+      {name !== '' &&
+      fantasyName !== '' &&
+      cpfCnpj !== '' &&
+      phone !== '' &&
+      email !== '' &&
+      address !== '' &&
+      number !== '' &&
+      district !== '' &&
+      zipCode !== '' &&
+      state !== '' &&
+      city !== '' ? (
+        <FabButtonComponent onPress={() => {}} />
+      ) : null}
     </NativeBaseProvider>
   );
 }

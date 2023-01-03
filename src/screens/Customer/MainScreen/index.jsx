@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-console */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useContext } from 'react';
@@ -10,6 +11,7 @@ import FabButtonComponent from '../../../components/FabButtonComponent';
 
 function MainScreen({ navigation }) {
   const [togglePassword, setTogglePassword] = useState(false);
+  const [toggleFabButton, setToggleFabButton] = useState(true);
 
   const {
     name,
@@ -18,6 +20,12 @@ function MainScreen({ navigation }) {
     rgIe,
     phone,
     email,
+    address,
+    number,
+    district,
+    zipCode,
+    state,
+    city,
     fillName,
     fillFantasyName,
     fillCpfCnpj,
@@ -51,6 +59,8 @@ function MainScreen({ navigation }) {
           togglePassword={() =>
             !togglePassword ? setTogglePassword(true) : setTogglePassword(false)
           }
+          onFocus={() => setToggleFabButton(false)}
+          onBlur={() => setToggleFabButton(true)}
         />
         <InputComponent
           containerWidth="100%"
@@ -69,6 +79,8 @@ function MainScreen({ navigation }) {
           togglePassword={() =>
             !togglePassword ? setTogglePassword(true) : setTogglePassword(false)
           }
+          onFocus={() => setToggleFabButton(false)}
+          onBlur={() => setToggleFabButton(true)}
         />
         <InputComponent
           containerWidth="100%"
@@ -87,6 +99,8 @@ function MainScreen({ navigation }) {
           togglePassword={() =>
             !togglePassword ? setTogglePassword(true) : setTogglePassword(false)
           }
+          onFocus={() => setToggleFabButton(false)}
+          onBlur={() => setToggleFabButton(true)}
         />
         <InputComponent
           containerWidth="100%"
@@ -105,6 +119,8 @@ function MainScreen({ navigation }) {
           togglePassword={() =>
             !togglePassword ? setTogglePassword(true) : setTogglePassword(false)
           }
+          onFocus={() => setToggleFabButton(false)}
+          onBlur={() => setToggleFabButton(true)}
         />
         <InputComponent
           containerWidth="100%"
@@ -123,6 +139,8 @@ function MainScreen({ navigation }) {
           togglePassword={() =>
             !togglePassword ? setTogglePassword(true) : setTogglePassword(false)
           }
+          onFocus={() => setToggleFabButton(false)}
+          onBlur={() => setToggleFabButton(true)}
         />
         <InputComponent
           containerWidth="100%"
@@ -142,14 +160,28 @@ function MainScreen({ navigation }) {
             !togglePassword ? setTogglePassword(true) : setTogglePassword(false)
           }
           mb="12"
+          onFocus={() => setToggleFabButton(false)}
+          onBlur={() => setToggleFabButton(true)}
         />
       </ScrollView>
 
-      <FabButtonComponent
-        onPress={() => {
-          console.log(name, fantasyName, cpfCnpj, rgIe, phone, email);
-        }}
-      />
+      {name !== '' &&
+      fantasyName !== '' &&
+      cpfCnpj !== '' &&
+      phone !== '' &&
+      address !== '' &&
+      number !== '' &&
+      district !== '' &&
+      zipCode !== '' &&
+      state !== '' &&
+      city !== '' &&
+      toggleFabButton === true ? (
+        <FabButtonComponent
+          onPress={() => {
+            console.log(name, fantasyName, cpfCnpj, rgIe, phone, email);
+          }}
+        />
+      ) : null}
     </NativeBaseProvider>
   );
 }

@@ -18,16 +18,32 @@ import ModalComponent from '../../../components/ModalComponent';
 import states from '../../../mock/listOfStates';
 import FabButtonComponent from '../../../components/FabButtonComponent';
 
-function AddressScreen({ navigation }) {
-  const [address, setAddress] = React.useState('');
-  const [number, setNumber] = React.useState('');
-  const [district, setDistrict] = React.useState('');
-  const [zipCode, setZipCode] = React.useState('');
-  const [complement, setComplement] = React.useState('');
-  const [state, setState] = React.useState('');
-  const [city, setCity] = React.useState('');
+import { CustomerContext } from '../../../contexts/customerContext';
 
+function AddressScreen({ navigation }) {
   const [isOpen, setIsOpen] = React.useState(false);
+  const [toggleFabButton, setToggleFabButton] = React.useState(true);
+  const {
+    name,
+    fantasyName,
+    cpfCnpj,
+    phone,
+    email,
+    address,
+    number,
+    district,
+    zipCode,
+    state,
+    city,
+    complement,
+    fillAddress,
+    fillNumber,
+    fillDistrict,
+    fillZipCode,
+    fillState,
+    fillCity,
+    fillComplement,
+  } = React.useContext(CustomerContext);
 
   return (
     <NativeBaseProvider>
@@ -41,9 +57,9 @@ function AddressScreen({ navigation }) {
         <InputComponent
           containerWidth="100%"
           paddingHorizontal="4"
-          changeText={(text) => setAddress(text)}
+          changeText={(text) => fillAddress(text)}
           value={address}
-          clearValue={() => setAddress('')}
+          clearValue={() => fillAddress('')}
           inputType="text"
           isPassword={false}
           keyboardType="default"
@@ -51,13 +67,15 @@ function AddressScreen({ navigation }) {
           leftIcon="map-marker"
           placeholder="Endereço"
           rightIcon="delete"
+          onFocus={() => setToggleFabButton(false)}
+          onBlur={() => setToggleFabButton(true)}
         />
 
         <HStack alignItems="center" justifyContent="space-between" px="4">
           <InputComponent
-            changeText={(text) => setNumber(text)}
+            changeText={(text) => fillNumber(text)}
             value={number}
-            clearValue={() => setNumber('')}
+            clearValue={() => fillNumber('')}
             inputType="text"
             isPassword={false}
             keyboardType="numeric"
@@ -66,12 +84,14 @@ function AddressScreen({ navigation }) {
             placeholder="Número"
             rightIcon="delete"
             containerWidth="45%"
+            onFocus={() => setToggleFabButton(false)}
+            onBlur={() => setToggleFabButton(true)}
           />
 
           <InputComponent
-            changeText={(text) => setDistrict(text)}
+            changeText={(text) => fillDistrict(text)}
             value={district}
-            clearValue={() => setDistrict('')}
+            clearValue={() => fillDistrict('')}
             inputType="text"
             isPassword={false}
             keyboardType="default"
@@ -80,15 +100,17 @@ function AddressScreen({ navigation }) {
             placeholder="Bairro"
             rightIcon="delete"
             containerWidth="45%"
+            onFocus={() => setToggleFabButton(false)}
+            onBlur={() => setToggleFabButton(true)}
           />
         </HStack>
 
         <InputComponent
           containerWidth="100%"
           paddingHorizontal="4"
-          changeText={(text) => setZipCode(text)}
+          changeText={(text) => fillZipCode(text)}
           value={zipCode}
-          clearValue={() => setZipCode('')}
+          clearValue={() => fillZipCode('')}
           inputType="text"
           isPassword={false}
           keyboardType="numeric"
@@ -96,6 +118,8 @@ function AddressScreen({ navigation }) {
           leftIcon="map-marker-radius"
           placeholder="CEP"
           rightIcon="delete"
+          onFocus={() => setToggleFabButton(false)}
+          onBlur={() => setToggleFabButton(true)}
         />
 
         <HStack alignItems="center" justifyContent="flex-end" pr={4}>
@@ -137,10 +161,10 @@ function AddressScreen({ navigation }) {
                       label={`${stateValue.uf} - ${stateValue.label}`}
                     />
                   ))}
-                  onValueChange={(text) => setState(text)}
+                  onValueChange={(text) => fillState(text)}
                   placeholder="Estado"
                   selectedValue={state}
-                  clearValue={() => setState('')}
+                  clearValue={() => fillState('')}
                 />
 
                 <SelectComponent
@@ -158,19 +182,19 @@ function AddressScreen({ navigation }) {
                       label={`${stateValue.uf} - ${stateValue.label}`}
                     />
                   ))}
-                  onValueChange={(text) => setCity(text)}
+                  onValueChange={(text) => fillCity(text)}
                   placeholder="Cidade"
                   selectedValue={city}
                   editable={!state}
-                  clearValue={() => setCity('')}
+                  clearValue={() => fillCity('')}
                 />
               </HStack>
 
               <InputComponent
                 containerWidth="100%"
-                changeText={(text) => setComplement(text)}
+                changeText={(text) => fillComplement(text)}
                 value={complement}
-                clearValue={() => setComplement('')}
+                clearValue={() => fillComplement('')}
                 inputType="text"
                 isPassword={false}
                 keyboardType="default"
@@ -179,6 +203,8 @@ function AddressScreen({ navigation }) {
                 placeholder="Logradouro"
                 rightIcon="delete"
                 paddingHorizontal={0}
+                onFocus={() => setToggleFabButton(false)}
+                onBlur={() => setToggleFabButton(true)}
               />
 
               <Button
@@ -278,10 +304,10 @@ function AddressScreen({ navigation }) {
                 label={`${stateValue.uf} - ${stateValue.label}`}
               />
             ))}
-            onValueChange={(text) => setState(text)}
+            onValueChange={(text) => fillState(text)}
             placeholder="Estado"
             selectedValue={state}
-            clearValue={() => setState('')}
+            clearValue={() => fillState('')}
           />
 
           <SelectComponent
@@ -298,20 +324,20 @@ function AddressScreen({ navigation }) {
                 label={`${stateValue.uf} - ${stateValue.label}`}
               />
             ))}
-            onValueChange={(text) => setCity(text)}
+            onValueChange={(text) => fillCity(text)}
             placeholder="Cidade"
             selectedValue={city}
             editable={!state}
-            clearValue={() => setCity('')}
+            clearValue={() => fillCity('')}
           />
         </HStack>
 
         <InputComponent
           containerWidth="100%"
           paddingHorizontal="4"
-          changeText={(text) => setComplement(text)}
+          changeText={(text) => fillComplement(text)}
           value={complement}
-          clearValue={() => setComplement('')}
+          clearValue={() => fillComplement('')}
           inputType="text"
           isPassword={false}
           keyboardType="default"
@@ -319,10 +345,25 @@ function AddressScreen({ navigation }) {
           leftIcon="comment-text"
           placeholder="Complemento"
           rightIcon="delete"
+          onFocus={() => setToggleFabButton(false)}
+          onBlur={() => setToggleFabButton(true)}
         />
       </ScrollView>
 
-      <FabButtonComponent onPress={() => {}} />
+      {name !== '' &&
+      fantasyName !== '' &&
+      cpfCnpj !== '' &&
+      phone !== '' &&
+      email !== '' &&
+      address !== '' &&
+      number !== '' &&
+      district !== '' &&
+      zipCode !== '' &&
+      state !== '' &&
+      city !== '' &&
+      toggleFabButton === true ? (
+        <FabButtonComponent onPress={() => {}} />
+      ) : null}
     </NativeBaseProvider>
   );
 }

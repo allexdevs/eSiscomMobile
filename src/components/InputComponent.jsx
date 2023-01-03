@@ -19,6 +19,8 @@ function InputComponent({
   containerWidth = '100%',
   editable = false,
   paddingHorizontal = '4',
+  onFocus,
+  onBlur,
 }) {
   return (
     <Box w={containerWidth} px={paddingHorizontal} my="2">
@@ -73,6 +75,8 @@ function InputComponent({
         keyboardType={keyboardType}
         returnKeyType={keyboardButton}
         isDisabled={editable}
+        onFocus={onFocus}
+        onBlur={onBlur}
       />
     </Box>
   );
@@ -94,6 +98,8 @@ InputComponent.propTypes = {
   containerWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   editable: PropTypes.bool,
   paddingHorizontal: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
 };
 
 InputComponent.defaultProps = {
@@ -112,6 +118,8 @@ InputComponent.defaultProps = {
   containerWidth: 0,
   editable: false,
   paddingHorizontal: 0,
+  onFocus: () => {},
+  onBlur: () => {},
 };
 
 export default InputComponent;
