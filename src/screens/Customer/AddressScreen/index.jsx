@@ -1,3 +1,6 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable react/jsx-boolean-value */
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/no-children-prop */
 import * as React from 'react';
 import {
@@ -9,6 +12,7 @@ import {
   Divider,
   Box,
   Text,
+  Checkbox,
 } from 'native-base';
 import HeaderComponent from '../../../components/HeaderComponent';
 import InputComponent from '../../../components/InputComponent';
@@ -19,10 +23,13 @@ import states from '../../../mock/listOfStates';
 import FabButtonComponent from '../../../components/FabButtonComponent';
 
 import { CustomerContext } from '../../../contexts/customerContext';
+import ListItemOfZipCode from '../../../components/ListItemOfZipCode';
+import MaskInputComponent from '../../../components/MaskInputComponent';
 
 function AddressScreen({ navigation }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [toggleFabButton, setToggleFabButton] = React.useState(true);
+  const [autoFill, setAutoFill] = React.useState(false);
   const {
     name,
     fantasyName,
@@ -35,7 +42,13 @@ function AddressScreen({ navigation }) {
     zipCode,
     state,
     city,
+    modalState,
+    modalCity,
+    modalComplement,
+    listCities,
     complement,
+    modalListCities,
+    listZipCode,
     fillAddress,
     fillNumber,
     fillDistrict,
@@ -43,6 +56,10 @@ function AddressScreen({ navigation }) {
     fillState,
     fillCity,
     fillComplement,
+    fillModalState,
+    fillModalCity,
+    fillModalComplement,
+    setListZipCode,
   } = React.useContext(CustomerContext);
 
   return (
@@ -105,19 +122,16 @@ function AddressScreen({ navigation }) {
           />
         </HStack>
 
-        <InputComponent
+        <MaskInputComponent
+          value={zipCode}
+          onChangeText={(masked, unmasked) => fillZipCode(unmasked)}
           containerWidth="100%"
           paddingHorizontal="4"
-          changeText={(text) => fillZipCode(text)}
-          value={zipCode}
-          clearValue={() => fillZipCode('')}
-          inputType="text"
-          isPassword={false}
-          keyboardType="numeric"
-          keyboardButton="done"
+          mask="ZIP_CODE"
           leftIcon="map-marker-radius"
-          placeholder="CEP"
           rightIcon="delete"
+          clearValue={() => fillZipCode('')}
+          type="numeric"
           onFocus={() => setToggleFabButton(false)}
           onBlur={() => setToggleFabButton(true)}
         />
@@ -130,15 +144,27 @@ function AddressScreen({ navigation }) {
             borderRadius="full"
             onPress={() => setIsOpen(true)}
           >
-            Não sei o meu CEP
+            Pesquisar CEP
           </Button>
         </HStack>
 
         <ModalComponent
           title="Pesquisar CEP"
           isOpen={isOpen}
-          onCancel={() => setIsOpen(false)}
-          onClose={() => setIsOpen(false)}
+          onCancel={() => {
+            setIsOpen(false);
+            fillModalState('');
+            fillModalCity('');
+            fillModalComplement('');
+            setListZipCode([]);
+          }}
+          onClose={() => {
+            setIsOpen(false);
+            fillModalState('');
+            fillModalCity('');
+            fillModalComplement('');
+            setListZipCode([]);
+          }}
           onConfirm={() => setIsOpen(false)}
           cancelButtonLabel="Fechar"
           confirmButtonLabel="Confirmar"
@@ -161,10 +187,10 @@ function AddressScreen({ navigation }) {
                       label={`${stateValue.uf} - ${stateValue.label}`}
                     />
                   ))}
-                  onValueChange={(text) => fillState(text)}
+                  onValueChange={(text) => fillModalState(text)}
                   placeholder="Estado"
-                  selectedValue={state}
-                  clearValue={() => fillState('')}
+                  selectedValue={modalState}
+                  clearValue={() => fillModalState('')}
                 />
 
                 <SelectComponent
@@ -175,26 +201,30 @@ function AddressScreen({ navigation }) {
                   closeIcon="chevron-down-circle-outline"
                   openIcon="chevron-up-circle-outline"
                   defaultValue=""
-                  items={states.map((stateValue) => (
-                    <Select.Item
-                      key={`state-${stateValue.id}`}
-                      value={stateValue.value}
-                      label={`${stateValue.uf} - ${stateValue.label}`}
-                    />
-                  ))}
-                  onValueChange={(text) => fillCity(text)}
+                  items={
+                    modalListCities.length > 0
+                      ? modalListCities.map((cityValue) => (
+                          <Select.Item
+                            key={`state-${cityValue.id}`}
+                            value={cityValue.name}
+                            label={cityValue.name}
+                          />
+                        ))
+                      : null
+                  }
+                  onValueChange={(text) => fillModalCity(text)}
                   placeholder="Cidade"
-                  selectedValue={city}
-                  editable={!state}
-                  clearValue={() => fillCity('')}
+                  selectedValue={modalCity}
+                  editable={!modalState}
+                  clearValue={() => fillModalCity('')}
                 />
               </HStack>
 
               <InputComponent
                 containerWidth="100%"
-                changeText={(text) => fillComplement(text)}
-                value={complement}
-                clearValue={() => fillComplement('')}
+                changeText={(text) => fillModalComplement(text)}
+                value={modalComplement}
+                clearValue={() => fillModalComplement('')}
                 inputType="text"
                 isPassword={false}
                 keyboardType="default"
@@ -207,6 +237,17 @@ function AddressScreen({ navigation }) {
                 onBlur={() => setToggleFabButton(true)}
               />
 
+              <Checkbox
+                _checked={{ bgColor: 'amber.500', borderColor: 'amber.500' }}
+                mt={4}
+                ml={2}
+                _text={{ fontSize: 12, color: 'gray.500' }}
+                value="yes"
+                onChange={setAutoFill}
+              >
+                Preencher automaticamente
+              </Checkbox>
+
               <Button
                 my={4}
                 size="sm"
@@ -216,7 +257,7 @@ function AddressScreen({ navigation }) {
                   bgColor: 'amber.600',
                 }}
               >
-                Pesquisar
+                Limpar
               </Button>
 
               <Divider my={4} alignSelf="center" />
@@ -225,65 +266,37 @@ function AddressScreen({ navigation }) {
                 <Text mb={4} fontSize={12} color="gray.700">
                   Resultado da busca
                 </Text>
-
-                <HStack my={2}>
-                  <Text fontSize={12} fontWeight="bold" color="gray.500">
-                    Logradouro:{' '}
-                  </Text>
-                  <Text fontSize={12} color="gray.500">
-                    Endereço pesquisado
-                  </Text>
-                </HStack>
-
-                <HStack alignItems="center" justifyContent="space-between">
-                  <HStack my={2}>
-                    <Text fontSize={12} fontWeight="bold" color="gray.500">
-                      Bairro:{' '}
-                    </Text>
-                    <Text fontSize={12} color="gray.500">
-                      Bairro pesquisado
-                    </Text>
-                  </HStack>
-
-                  <HStack my={2}>
-                    <Text fontSize={12} fontWeight="bold" color="gray.500">
-                      CEP:{' '}
-                    </Text>
-                    <Text fontSize={12} color="gray.500">
-                      00000-000
-                    </Text>
-                  </HStack>
-                </HStack>
-
-                <HStack alignItems="center" justifyContent="space-between">
-                  <HStack my={2}>
-                    <Text fontSize={12} fontWeight="bold" color="gray.500">
-                      Cidade:{' '}
-                    </Text>
-                    <Text fontSize={12} color="gray.500">
-                      Cidade pesquisada
-                    </Text>
-                  </HStack>
-
-                  <HStack my={2}>
-                    <Text fontSize={12} fontWeight="bold" color="gray.500">
-                      UF:{' '}
-                    </Text>
-                    <Text fontSize={12} color="gray.500">
-                      AC
-                    </Text>
-                  </HStack>
-                </HStack>
-
-                <HStack my={2}>
-                  <Text fontSize={12} fontWeight="bold" color="gray.500">
-                    Complemento:{' '}
-                  </Text>
-                  <Text fontSize={12} color="gray.500">
-                    Complemento pesquisado
-                  </Text>
-                </HStack>
               </Box>
+              {listZipCode.length > 0
+                ? listZipCode.map((item, index) => (
+                    <ListItemOfZipCode
+                      key={`${index}-${item.zipcode}`}
+                      publicPlace={item.public_place}
+                      district={item.district}
+                      zipCode={item.zipCode}
+                      city={item.city}
+                      uf={item.uf}
+                      complement={item.complement}
+                      onSelect={() => {
+                        if (autoFill) {
+                          fillAddress(item.public_place);
+                          fillDistrict(item.district);
+                          fillCity(item.city);
+                          fillZipCode(item.zipCode);
+                          fillState(item.uf);
+                          fillComplement(item.complement);
+                          setIsOpen(false);
+                          fillModalCity('');
+                          fillModalState('');
+                          fillModalComplement('');
+                        } else {
+                          fillZipCode(item.zipCode);
+                          setIsOpen(false);
+                        }
+                      }}
+                    />
+                  ))
+                : null}
             </ScrollView>
           }
         />
@@ -317,13 +330,17 @@ function AddressScreen({ navigation }) {
             closeIcon="chevron-down-circle-outline"
             openIcon="chevron-up-circle-outline"
             defaultValue=""
-            items={states.map((stateValue) => (
-              <Select.Item
-                key={`state-${stateValue.id}`}
-                value={stateValue.value}
-                label={`${stateValue.uf} - ${stateValue.label}`}
-              />
-            ))}
+            items={
+              listCities.length > 0
+                ? listCities.map((cityValue) => (
+                    <Select.Item
+                      key={`city-${cityValue.id}`}
+                      value={cityValue.name}
+                      label={cityValue.name}
+                    />
+                  ))
+                : null
+            }
             onValueChange={(text) => fillCity(text)}
             placeholder="Cidade"
             selectedValue={city}

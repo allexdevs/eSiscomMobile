@@ -60,6 +60,7 @@ function HomeScreen({ navigation }) {
                       color="amber.500"
                     />
                   }
+                  _pressed={{ bgColor: 'gray.300' }}
                 />
               </HStack>
             </Box>

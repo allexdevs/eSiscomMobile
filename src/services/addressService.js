@@ -2,7 +2,7 @@ import URL_API from '../shared/constants';
 
 const searchZipCode = async (uf, city, plublicPlace) => {
   const request = await fetch(
-    `${URL_API}/address/searchZipCode?uf=${uf}&city=${city}&public_palce=${plublicPlace}`
+    `${URL_API}/address/searchZipCode?uf=${uf}&city=${city}&public_place=${plublicPlace}`
   );
   const response = await request.json();
   return response;

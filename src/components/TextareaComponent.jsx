@@ -3,7 +3,7 @@ import { TextArea, Box, Icon, IconButton, HStack } from 'native-base';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import PropTypes from 'prop-types';
 
-function TextareaComponent({ placeholder, onChangeText, value, clearValue }) {
+function TextareaComponent({ placeholder, onChangeText, value, clearValue, onFocus, onBlur }) {
   return (
     <Box width="100%" px="4">
       <HStack alignItems="center" justifyContent="space-between" space={4} my="4">
@@ -14,6 +14,8 @@ function TextareaComponent({ placeholder, onChangeText, value, clearValue }) {
           _focus={{ bgColor: 'gray.200', borderColor: 'amber.500' }}
           onChangeText={onChangeText}
           value={value}
+          onFocus={onFocus}
+          onBlur={onBlur}
         />
         <IconButton
           borderRadius="full"
@@ -31,6 +33,8 @@ TextareaComponent.propTypes = {
   onChangeText: PropTypes.func,
   value: PropTypes.string,
   clearValue: PropTypes.func,
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
 };
 
 TextareaComponent.defaultProps = {
@@ -38,6 +42,8 @@ TextareaComponent.defaultProps = {
   onChangeText: () => {},
   value: '',
   clearValue: () => {},
+  onFocus: () => {},
+  onBlur: () => {},
 };
 
 export default TextareaComponent;

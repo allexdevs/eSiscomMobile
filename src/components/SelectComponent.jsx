@@ -52,6 +52,10 @@ function SelectComponent({
           textAlign="center"
           variant="unstyled"
           isDisabled={editable}
+          _item={{
+            color: 'gray.400',
+            fontSize: 10,
+          }}
           dropdownCloseIcon={
             <Icon as={MaterialCommunityIcons} name={closeIcon} size="md" color="gray.400" mr={3} />
           }

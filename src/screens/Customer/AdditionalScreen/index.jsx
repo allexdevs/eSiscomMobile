@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+/* eslint-disable no-nested-ternary */
+import React, { useContext, useState } from 'react';
 import { NativeBaseProvider } from 'native-base';
 import HeaderComponent from '../../../components/HeaderComponent';
 import TextareaComponent from '../../../components/TextareaComponent';
@@ -7,6 +8,7 @@ import { CustomerContext } from '../../../contexts/customerContext';
 import FabButtonComponent from '../../../components/FabButtonComponent';
 
 function AdditionalScreen({ navigation }) {
+  const [toggleFabButton, setToggleFabButton] = useState(true);
   const {
     name,
     fantasyName,
@@ -31,6 +33,8 @@ function AdditionalScreen({ navigation }) {
         placeholder="Informações adicionais"
         value={additional}
         clearValue={() => fillAdditional('')}
+        onFocus={() => setToggleFabButton(false)}
+        onBlur={() => setToggleFabButton(true)}
       />
 
       {name !== '' &&
@@ -43,7 +47,8 @@ function AdditionalScreen({ navigation }) {
       district !== '' &&
       zipCode !== '' &&
       state !== '' &&
-      city !== '' ? (
+      city !== '' &&
+      toggleFabButton ? (
         <FabButtonComponent onPress={() => {}} />
       ) : null}
     </NativeBaseProvider>

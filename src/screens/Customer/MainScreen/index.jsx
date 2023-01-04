@@ -5,6 +5,7 @@ import React, { useState, useContext } from 'react';
 import { NativeBaseProvider, ScrollView } from 'native-base';
 import HeaderComponent from '../../../components/HeaderComponent';
 import InputComponent from '../../../components/InputComponent';
+import MaskInputComponent from '../../../components/MaskInputComponent';
 
 import { CustomerContext } from '../../../contexts/customerContext';
 import FabButtonComponent from '../../../components/FabButtonComponent';
@@ -82,26 +83,21 @@ function MainScreen({ navigation }) {
           onFocus={() => setToggleFabButton(false)}
           onBlur={() => setToggleFabButton(true)}
         />
-        <InputComponent
+
+        <MaskInputComponent
+          value={cpfCnpj}
+          onChangeText={(masked, unmasked) => fillCpfCnpj(unmasked)}
           containerWidth="100%"
           paddingHorizontal="4"
+          mask="CPF_CNPJ"
           leftIcon="card-bulleted-outline"
           rightIcon="delete"
-          placeholder="CPF/CNPJ"
-          value={cpfCnpj}
-          changeText={(text) => fillCpfCnpj(text)}
           clearValue={() => fillCpfCnpj('')}
-          inputType={!togglePassword ? 'text' : 'password'}
-          keyboardButton="done"
-          keyboardType="numeric"
-          passwordIcon={!togglePassword ? 'eye' : 'eye-off'}
-          isPassword={false}
-          togglePassword={() =>
-            !togglePassword ? setTogglePassword(true) : setTogglePassword(false)
-          }
+          type="numeric"
           onFocus={() => setToggleFabButton(false)}
           onBlur={() => setToggleFabButton(true)}
         />
+
         <InputComponent
           containerWidth="100%"
           paddingHorizontal="4"
@@ -122,23 +118,16 @@ function MainScreen({ navigation }) {
           onFocus={() => setToggleFabButton(false)}
           onBlur={() => setToggleFabButton(true)}
         />
-        <InputComponent
+        <MaskInputComponent
+          value={phone}
+          onChangeText={(masked, unmasked) => fillPhone(unmasked)}
           containerWidth="100%"
           paddingHorizontal="4"
+          mask="PHONE"
           leftIcon="phone"
           rightIcon="delete"
-          placeholder="Telefone"
-          value={phone}
-          changeText={(text) => fillPhone(text)}
           clearValue={() => fillPhone('')}
-          inputType={!togglePassword ? 'text' : 'password'}
-          keyboardButton="done"
-          keyboardType="numeric"
-          passwordIcon={!togglePassword ? 'eye' : 'eye-off'}
-          isPassword={false}
-          togglePassword={() =>
-            !togglePassword ? setTogglePassword(true) : setTogglePassword(false)
-          }
+          type="numeric"
           onFocus={() => setToggleFabButton(false)}
           onBlur={() => setToggleFabButton(true)}
         />
