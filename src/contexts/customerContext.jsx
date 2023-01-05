@@ -5,11 +5,17 @@
 /* eslint-disable no-shadow */
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { createContext, useState, useEffect } from 'react';
+import SweetAlert from 'react-native-sweet-alert';
 import { listCounties, searchZipCode } from '../services/addressService';
 
 export const CustomerContext = createContext({});
 
 function CustomerProvider({ children }) {
+  const [id, setId] = useState('');
+  function fillId(id) {
+    setId(id);
+  }
+
   const [name, setName] = useState('');
   function fillName(name) {
     setName(name);
@@ -83,11 +89,11 @@ function CustomerProvider({ children }) {
   const [listCities, setListCities] = useState([]);
 
   function listCitiesByState(uf) {
-    setListCities([]);
     listCounties(uf)
       .then((responseData) => {
+        if (listCities.length > 0) setListCities([]);
         responseData.status === 'success' ? setListCities(responseData.payload) : setListCities([]);
-        console.log(responseData);
+        console.log(listCities);
       })
       .catch((error) => {
         console.warn(error);
@@ -116,17 +122,19 @@ function CustomerProvider({ children }) {
   const [modalListCities, setModalListCities] = useState([]);
 
   function listCitiesModalByState(uf) {
-    setModalListCities([]);
-    listCounties(uf)
-      .then((responseData) => {
-        responseData.status === 'success'
-          ? setModalListCities(responseData.payload)
-          : setModalListCities([]);
-        console.log(responseData);
-      })
-      .catch((error) => {
-        console.warn(error);
-      });
+    if (uf !== '') {
+      listCounties(uf)
+        .then((responseData) => {
+          setModalListCities([]);
+          responseData.status === 'success'
+            ? setModalListCities(responseData.payload)
+            : setModalListCities([]);
+          console.log(responseData);
+        })
+        .catch((error) => {
+          console.warn(error);
+        });
+    }
   }
 
   useEffect(() => {
@@ -136,25 +144,33 @@ function CustomerProvider({ children }) {
   const [listZipCode, setListZipCode] = useState([]);
 
   function lookForZipCode(uf, city, publicPlace) {
-    setListZipCode([]);
-    searchZipCode(uf, city, publicPlace)
-      .then((responseData) => {
-        responseData.status === 'success'
-          ? setListZipCode(responseData.payload)
-          : setListZipCode([]);
-      })
-      .catch((error) => console.log(error));
-  }
-
-  useEffect(() => {
-    if (modalState !== '' && modalCity !== '' && modalComplement !== '') {
-      lookForZipCode(modalState, modalCity, modalComplement);
+    if (uf === '' || city === '' || publicPlace === '') {
+      SweetAlert.showAlertWithOptions(
+        {
+          title: 'Campos Vazios',
+          subTitle: 'Preencha todos os campos',
+          confirmButtonTitle: 'Ok',
+          style: 'warning',
+        },
+        (callback) => (callback === 'accepted' ? SweetAlert.dismissAlert() : null)
+      );
+    } else {
+      setListZipCode([]);
+      searchZipCode(uf, city, publicPlace)
+        .then((responseData) => {
+          responseData.status === 'success'
+            ? setListZipCode(responseData.payload)
+            : setListZipCode([]);
+          console.log(responseData.payload);
+        })
+        .catch((error) => console.log(error));
     }
-  }, [modalState, modalCity, modalComplement]);
+  }
 
   return (
     <CustomerContext.Provider
       value={{
+        id,
         name,
         fantasyName,
         cpfCnpj,
@@ -175,6 +191,7 @@ function CustomerProvider({ children }) {
         modalComplement,
         modalListCities,
         listZipCode,
+        fillId,
         fillName,
         fillFantasyName,
         fillCpfCnpj,
@@ -193,6 +210,8 @@ function CustomerProvider({ children }) {
         fillModalCity,
         fillModalComplement,
         setListZipCode,
+        lookForZipCode,
+        listCitiesByState,
       }}
     >
       {children}

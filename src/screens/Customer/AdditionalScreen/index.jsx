@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 /* eslint-disable no-nested-ternary */
 import React, { useContext, useState } from 'react';
 import { NativeBaseProvider } from 'native-base';
@@ -7,12 +8,16 @@ import TextareaComponent from '../../../components/TextareaComponent';
 import { CustomerContext } from '../../../contexts/customerContext';
 import FabButtonComponent from '../../../components/FabButtonComponent';
 
+import { addNewCustomer, updateCustomer } from '../../../services/customersService';
+
 function AdditionalScreen({ navigation }) {
   const [toggleFabButton, setToggleFabButton] = useState(true);
   const {
+    id,
     name,
     fantasyName,
     cpfCnpj,
+    rgIe,
     phone,
     email,
     address,
@@ -22,6 +27,7 @@ function AdditionalScreen({ navigation }) {
     state,
     city,
     additional,
+    complement,
     fillAdditional,
   } = useContext(CustomerContext);
 
@@ -49,7 +55,46 @@ function AdditionalScreen({ navigation }) {
       state !== '' &&
       city !== '' &&
       toggleFabButton ? (
-        <FabButtonComponent onPress={() => {}} />
+        <FabButtonComponent
+          onPress={() => {
+            id !== ''
+              ? addNewCustomer(
+                  name,
+                  fantasyName,
+                  cpfCnpj,
+                  rgIe,
+                  phone,
+                  email,
+                  address,
+                  number,
+                  district,
+                  zipCode,
+                  state,
+                  city,
+                  complement,
+                  additional
+                )
+              : updateCustomer(
+                  id,
+                  name,
+                  fantasyName,
+                  cpfCnpj,
+                  rgIe,
+                  address,
+                  district,
+                  city,
+                  state,
+                  zipCode,
+                  complement,
+                  number,
+                  additional,
+                  email,
+                  phone,
+                  '',
+                  '0'
+                );
+          }}
+        />
       ) : null}
     </NativeBaseProvider>
   );

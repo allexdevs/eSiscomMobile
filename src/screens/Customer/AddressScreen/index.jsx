@@ -1,3 +1,6 @@
+/* eslint-disable no-unneeded-ternary */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-shadow */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable react/jsx-boolean-value */
 /* eslint-disable react/no-array-index-key */
@@ -6,17 +9,16 @@ import * as React from 'react';
 import {
   NativeBaseProvider,
   ScrollView,
-  Select,
   HStack,
   Button,
   Divider,
   Box,
   Text,
   Checkbox,
+  FlatList,
 } from 'native-base';
 import HeaderComponent from '../../../components/HeaderComponent';
 import InputComponent from '../../../components/InputComponent';
-import SelectComponent from '../../../components/SelectComponent';
 import ModalComponent from '../../../components/ModalComponent';
 
 import states from '../../../mock/listOfStates';
@@ -25,15 +27,40 @@ import FabButtonComponent from '../../../components/FabButtonComponent';
 import { CustomerContext } from '../../../contexts/customerContext';
 import ListItemOfZipCode from '../../../components/ListItemOfZipCode';
 import MaskInputComponent from '../../../components/MaskInputComponent';
+import SelectComponentWithSearchBar from '../../../components/SelectComponentWithSearchBar';
+
+import { addNewCustomer, updateCustomer } from '../../../services/customersService';
+
+import {
+  limitCharacters,
+  removeSpecialCharacters,
+  filterCity,
+  filterState,
+} from '../../../shared/helpers';
 
 function AddressScreen({ navigation }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const [toggleFabButton, setToggleFabButton] = React.useState(true);
   const [autoFill, setAutoFill] = React.useState(false);
+  // state
+  const [toggleModalState, setToggleModalState] = React.useState(false);
+  const [modalStateSearch, setModalStateSearch] = React.useState('');
+  // city
+  const [toggleModalCity, setToggleModalCity] = React.useState(false);
+  const [modalCitySearch, setModalCitySearch] = React.useState('');
+  // zip code state
+  const [toggleModalZipCodeState, setToggleModalZipCodeState] = React.useState(false);
+  const [modalZipCodeStateSearch, setModalZipCodeStateSearch] = React.useState('');
+  // zip code city
+  const [toggleModalZipCodeCity, setToggleModalZipCodeCity] = React.useState(false);
+  const [modalZipCodeCitySearch, setModalZipCodeCitySearch] = React.useState('');
+
   const {
+    id,
     name,
     fantasyName,
     cpfCnpj,
+    rgIe,
     phone,
     email,
     address,
@@ -42,6 +69,7 @@ function AddressScreen({ navigation }) {
     zipCode,
     state,
     city,
+    additional,
     modalState,
     modalCity,
     modalComplement,
@@ -60,6 +88,7 @@ function AddressScreen({ navigation }) {
     fillModalCity,
     fillModalComplement,
     setListZipCode,
+    lookForZipCode,
   } = React.useContext(CustomerContext);
 
   return (
@@ -171,52 +200,90 @@ function AddressScreen({ navigation }) {
           children={
             <ScrollView>
               <HStack alignItems="center" justifyContent="space-between">
-                <SelectComponent
+                <SelectComponentWithSearchBar
+                  label={modalState}
+                  emptyLabel="Estado"
                   containerWidth="45%"
-                  marginVertical={2}
-                  marginHorizontal={0}
-                  accessibilityLabel="State selection for Zip Code"
-                  borderWidth={1}
-                  closeIcon="chevron-down-circle-outline"
-                  openIcon="chevron-up-circle-outline"
-                  defaultValue=""
-                  items={states.map((stateValue) => (
-                    <Select.Item
-                      key={`state-${stateValue.id}`}
-                      value={stateValue.value}
-                      label={`${stateValue.uf} - ${stateValue.label}`}
+                  leftIcon="map"
+                  rightIcon="delete"
+                  editable={false}
+                  visible={toggleModalZipCodeState}
+                  show={() => setToggleModalZipCodeState(true)}
+                  hide={() => {
+                    setToggleModalZipCodeState(false);
+                    setModalZipCodeStateSearch('');
+                  }}
+                  title="Estado"
+                  placeholder="Pesquisar estado..."
+                  items={
+                    <FlatList
+                      data={filterState(states, modalZipCodeStateSearch)}
+                      renderItem={({ item }) => (
+                        <Button
+                          justifyContent="flex-start"
+                          variant="ghost"
+                          my={1}
+                          _text={{ color: 'gray.500' }}
+                          _pressed={{ bgColor: 'gray.200' }}
+                          borderRadius="full"
+                          onPress={() => {
+                            fillModalState(item.value.toUpperCase());
+                            setToggleModalZipCodeState(false);
+                            setModalZipCodeStateSearch('');
+                          }}
+                        >{`${item.uf} - ${item.label}`}</Button>
+                      )}
+                      keyExtractor={(item) => item.id}
                     />
-                  ))}
-                  onValueChange={(text) => fillModalState(text)}
-                  placeholder="Estado"
-                  selectedValue={modalState}
+                  }
                   clearValue={() => fillModalState('')}
+                  clearSearchValue={() => setModalZipCodeStateSearch('')}
+                  searchValue={modalZipCodeStateSearch}
+                  onSearch={(text) => setModalZipCodeStateSearch(text)}
                 />
 
-                <SelectComponent
-                  accessibilityLabel="City selection"
+                <SelectComponentWithSearchBar
+                  label={limitCharacters(modalCity)}
+                  emptyLabel="Cidade"
                   containerWidth="45%"
-                  marginHorizontal={0}
-                  borderWidth={1}
-                  closeIcon="chevron-down-circle-outline"
-                  openIcon="chevron-up-circle-outline"
-                  defaultValue=""
+                  leftIcon="city"
+                  rightIcon="delete"
+                  editable={modalState !== '' ? false : true}
+                  visible={toggleModalZipCodeCity}
+                  show={() => setToggleModalZipCodeCity(true)}
+                  hide={() => {
+                    setToggleModalZipCodeCity(false);
+                    setModalZipCodeCitySearch('');
+                  }}
+                  title="Cidade"
+                  placeholder="Pesquisar cidade..."
                   items={
-                    modalListCities.length > 0
-                      ? modalListCities.map((cityValue) => (
-                          <Select.Item
-                            key={`state-${cityValue.id}`}
-                            value={cityValue.name}
-                            label={cityValue.name}
-                          />
-                        ))
-                      : null
+                    <FlatList
+                      data={filterCity(modalListCities, modalZipCodeCitySearch)}
+                      renderItem={({ item }) => (
+                        <Button
+                          justifyContent="flex-start"
+                          variant="ghost"
+                          my={1}
+                          _text={{ color: 'gray.500' }}
+                          _pressed={{ bgColor: 'gray.200' }}
+                          borderRadius="full"
+                          onPress={() => {
+                            fillModalCity(item.name);
+                            setToggleModalZipCodeCity(false);
+                            setModalZipCodeCitySearch('');
+                          }}
+                        >
+                          {item.name}
+                        </Button>
+                      )}
+                      keyExtractor={(item) => item.id}
+                    />
                   }
-                  onValueChange={(text) => fillModalCity(text)}
-                  placeholder="Cidade"
-                  selectedValue={modalCity}
-                  editable={!modalState}
                   clearValue={() => fillModalCity('')}
+                  clearSearchValue={() => setModalZipCodeCitySearch('')}
+                  searchValue={modalZipCodeCitySearch}
+                  onSearch={(text) => setModalZipCodeCitySearch(text)}
                 />
               </HStack>
 
@@ -256,8 +323,11 @@ function AddressScreen({ navigation }) {
                 _pressed={{
                   bgColor: 'amber.600',
                 }}
+                onPress={() =>
+                  lookForZipCode(modalState, removeSpecialCharacters(modalCity), modalComplement)
+                }
               >
-                Limpar
+                Pesquisar
               </Button>
 
               <Divider my={4} alignSelf="center" />
@@ -302,50 +372,90 @@ function AddressScreen({ navigation }) {
         />
 
         <HStack alignItems="center" justifyContent="space-between" width="100%" px="4">
-          <SelectComponent
-            marginVertical={2}
+          <SelectComponentWithSearchBar
+            label={state}
+            emptyLabel="Estado"
             containerWidth="45%"
-            accessibilityLabel="State selection"
-            borderWidth={1}
-            closeIcon="chevron-down-circle-outline"
-            openIcon="chevron-up-circle-outline"
-            defaultValue=""
-            items={states.map((stateValue) => (
-              <Select.Item
-                key={`state-${stateValue.id}`}
-                value={stateValue.value}
-                label={`${stateValue.uf} - ${stateValue.label}`}
+            leftIcon="map"
+            rightIcon="delete"
+            editable={false}
+            visible={toggleModalState}
+            show={() => setToggleModalState(true)}
+            hide={() => {
+              setToggleModalState(false);
+              setModalStateSearch('');
+            }}
+            title="Estado"
+            placeholder="Pesquisar estado..."
+            items={
+              <FlatList
+                data={filterState(states, modalStateSearch)}
+                renderItem={({ item }) => (
+                  <Button
+                    justifyContent="flex-start"
+                    variant="ghost"
+                    my={1}
+                    _text={{ color: 'gray.500' }}
+                    _pressed={{ bgColor: 'gray.200' }}
+                    borderRadius="full"
+                    onPress={() => {
+                      fillState(item.value.toUpperCase());
+                      setToggleModalState(false);
+                      setModalStateSearch('');
+                    }}
+                  >{`${item.uf} - ${item.label}`}</Button>
+                )}
+                keyExtractor={(item) => item.id}
               />
-            ))}
-            onValueChange={(text) => fillState(text)}
-            placeholder="Estado"
-            selectedValue={state}
+            }
             clearValue={() => fillState('')}
+            clearSearchValue={() => setModalStateSearch('')}
+            searchValue={modalStateSearch}
+            onSearch={(text) => setModalStateSearch(text)}
           />
 
-          <SelectComponent
+          <SelectComponentWithSearchBar
+            label={limitCharacters(city)}
+            emptyLabel="Cidade"
             containerWidth="45%"
-            accessibilityLabel="City selection"
-            borderWidth={1}
-            closeIcon="chevron-down-circle-outline"
-            openIcon="chevron-up-circle-outline"
-            defaultValue=""
+            leftIcon="city"
+            rightIcon="delete"
+            visible={toggleModalCity}
+            editable={state !== '' ? false : true}
+            show={() => setToggleModalCity(true)}
+            hide={() => {
+              setToggleModalCity(false);
+              setModalCitySearch('');
+            }}
+            title="Cidade"
+            placeholder="Pesquisar cidade..."
             items={
-              listCities.length > 0
-                ? listCities.map((cityValue) => (
-                    <Select.Item
-                      key={`city-${cityValue.id}`}
-                      value={cityValue.name}
-                      label={cityValue.name}
-                    />
-                  ))
-                : null
+              <FlatList
+                data={filterCity(listCities, modalCitySearch)}
+                renderItem={({ item }) => (
+                  <Button
+                    justifyContent="flex-start"
+                    variant="ghost"
+                    my={1}
+                    _text={{ color: 'gray.500' }}
+                    _pressed={{ bgColor: 'gray.200' }}
+                    borderRadius="full"
+                    onPress={() => {
+                      fillCity(item.name);
+                      setToggleModalCity(false);
+                      setModalCitySearch('');
+                    }}
+                  >
+                    {item.name}
+                  </Button>
+                )}
+                keyExtractor={(item) => item.id}
+              />
             }
-            onValueChange={(text) => fillCity(text)}
-            placeholder="Cidade"
-            selectedValue={city}
-            editable={!state}
             clearValue={() => fillCity('')}
+            clearSearchValue={() => setModalCitySearch('')}
+            searchValue={modalCitySearch}
+            onSearch={(text) => setModalCitySearch(text)}
           />
         </HStack>
 
@@ -379,7 +489,46 @@ function AddressScreen({ navigation }) {
       state !== '' &&
       city !== '' &&
       toggleFabButton === true ? (
-        <FabButtonComponent onPress={() => {}} />
+        <FabButtonComponent
+          onPress={() => {
+            id !== ''
+              ? addNewCustomer(
+                  name,
+                  fantasyName,
+                  cpfCnpj,
+                  rgIe,
+                  phone,
+                  email,
+                  address,
+                  number,
+                  district,
+                  zipCode,
+                  state,
+                  city,
+                  complement,
+                  additional
+                )
+              : updateCustomer(
+                  id,
+                  name,
+                  fantasyName,
+                  cpfCnpj,
+                  rgIe,
+                  address,
+                  district,
+                  city,
+                  state,
+                  zipCode,
+                  complement,
+                  number,
+                  additional,
+                  email,
+                  phone,
+                  '',
+                  '0'
+                );
+          }}
+        />
       ) : null}
     </NativeBaseProvider>
   );

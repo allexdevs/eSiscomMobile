@@ -1,8 +1,10 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-console */
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { NativeBaseProvider, ScrollView } from 'native-base';
+import SweetAlert from 'react-native-sweet-alert';
 import HeaderComponent from '../../../components/HeaderComponent';
 import InputComponent from '../../../components/InputComponent';
 import MaskInputComponent from '../../../components/MaskInputComponent';
@@ -10,11 +12,15 @@ import MaskInputComponent from '../../../components/MaskInputComponent';
 import { CustomerContext } from '../../../contexts/customerContext';
 import FabButtonComponent from '../../../components/FabButtonComponent';
 
-function MainScreen({ navigation }) {
+import { addNewCustomer, updateCustomer } from '../../../services/customersService';
+import { showAlert } from '../../../shared/helpers';
+
+function MainScreen({ navigation, route }) {
   const [togglePassword, setTogglePassword] = useState(false);
   const [toggleFabButton, setToggleFabButton] = useState(true);
 
   const {
+    id,
     name,
     fantasyName,
     cpfCnpj,
@@ -27,13 +33,47 @@ function MainScreen({ navigation }) {
     zipCode,
     state,
     city,
+    complement,
+    additional,
+    fillId,
     fillName,
     fillFantasyName,
     fillCpfCnpj,
     fillRgIe,
     fillPhone,
     fillEmail,
+    fillAddress,
+    fillNumber,
+    fillDistrict,
+    fillZipCode,
+    fillState,
+    fillCity,
+    fillComplement,
+    fillAdditional,
   } = useContext(CustomerContext);
+
+  useEffect(() => {
+    const navParams = navigation.addListener('focus', () => {
+      const { params } = route;
+      fillId(params.id);
+      fillName(params.name);
+      fillFantasyName(params.fantasyName);
+      fillCpfCnpj(params.cpfCnpj);
+      fillRgIe(params.rgIe);
+      fillPhone(params.phone);
+      fillEmail(params.email);
+      fillAddress(params.address);
+      fillNumber(params.number.toString());
+      fillDistrict(params.district);
+      fillZipCode(params.zipCode);
+      fillState(params.state);
+      fillCity(params.city);
+      fillComplement(params.complement);
+      fillAdditional(params.additional);
+    });
+
+    return navParams;
+  }, [navigation]);
 
   return (
     <NativeBaseProvider>
@@ -167,7 +207,109 @@ function MainScreen({ navigation }) {
       toggleFabButton === true ? (
         <FabButtonComponent
           onPress={() => {
-            console.log(name, fantasyName, cpfCnpj, rgIe, phone, email);
+            if (id === '') {
+              addNewCustomer(
+                name,
+                fantasyName,
+                cpfCnpj,
+                rgIe,
+                phone,
+                email,
+                address,
+                number,
+                district,
+                zipCode,
+                state,
+                city,
+                complement,
+                additional
+              )
+                .then((responseData) => {
+                  showAlert(
+                    'Adicionar Usuário',
+                    responseData.message,
+                    'success',
+                    'Ok',
+                    (callback) => {
+                      if (callback === 'accepted') {
+                        fillId('');
+                        fillName('');
+                        fillFantasyName('');
+                        fillCpfCnpj('');
+                        fillRgIe('');
+                        fillPhone('');
+                        fillEmail('');
+                        fillAddress('');
+                        fillNumber('');
+                        fillDistrict('');
+                        fillZipCode('');
+                        fillState('');
+                        fillCity('');
+                        fillComplement('');
+                        fillAdditional('');
+                        SweetAlert.dismissAlert();
+                        navigation.navigate('QueryScreen');
+                      }
+                    }
+                  );
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            } else {
+              updateCustomer(
+                id,
+                name,
+                fantasyName,
+                cpfCnpj,
+                rgIe,
+                address,
+                district,
+                city,
+                state,
+                zipCode,
+                complement,
+                number,
+                additional,
+                email,
+                phone,
+                'A',
+                '0'
+              )
+                .then((responseData) => {
+                  showAlert(
+                    'Atualizar Usuário',
+                    responseData.message,
+                    'success',
+                    'Ok',
+                    (callback) => {
+                      if (callback === 'accepted') {
+                        fillId('');
+                        fillName('');
+                        fillFantasyName('');
+                        fillCpfCnpj('');
+                        fillRgIe('');
+                        fillPhone('');
+                        fillEmail('');
+                        fillAddress('');
+                        fillNumber('');
+                        fillDistrict('');
+                        fillZipCode('');
+                        fillState('');
+                        fillCity('');
+                        fillComplement('');
+                        fillAdditional('');
+                        SweetAlert.dismissAlert();
+                        navigation.navigate('QueryScreen');
+                      }
+                    }
+                  );
+                  console.log(responseData);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            }
           }}
         />
       ) : null}

@@ -12,10 +12,12 @@ import {
   getCustomers,
   getCustomerByName,
   getCustomerById,
+  deleteCustomer,
 } from '../../../services/customersService';
 import ListItem from '../../../components/ListItem';
 import HeaderComponent from '../../../components/HeaderComponent';
 import SearchBarComponent from '../../../components/SearchBarComponent';
+import { showAlert } from '../../../shared/helpers';
 
 function QueryScreen({ navigation }) {
   const [filterValue, setFilterValue] = useState('');
@@ -114,7 +116,42 @@ function QueryScreen({ navigation }) {
             title={`${item.CODIGO} - ${item.NOME}`}
             subtitle={item.CPF_CNPJ}
             address={`${item.RUA}, ${item.NUMERO} - ${item.BAIRRO}`}
-            link={() => navigation.navigate('HomeScreen')}
+            deleteItem={() => {
+              showAlert(
+                'Excluir Cliente',
+                'Deseja excluir esse cliente?',
+                'warning',
+                'Excluir',
+                async (callback) => {
+                  if (callback === 'accepted') {
+                    await deleteCustomer(item.CODIGO);
+                    onRefresh();
+                  }
+                }
+              );
+            }}
+            link={() =>
+              navigation.navigate('MainPersonalDataScreen', {
+                screen: 'MainScreen',
+                params: {
+                  id: item.CODIGO,
+                  name: item.NOME,
+                  fantasyName: item.FANTASIA,
+                  cpfCnpj: item.CPF_CNPJ,
+                  rgIe: item.RG_IE,
+                  address: item.RUA,
+                  district: item.BAIRRO,
+                  city: item.CIDADE,
+                  state: item.ESTADO,
+                  zipCode: item.CEP,
+                  complement: item.COMPLEMENTO,
+                  number: item.NUMERO,
+                  additional: item.OBS,
+                  email: item.EMAIL,
+                  phone: item.TELEFONE,
+                },
+              })
+            }
           />
         )}
       />

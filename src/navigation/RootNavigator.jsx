@@ -11,26 +11,35 @@ import TabNavigatorSync from './SyncNavigator';
 import CustomerTabNavigator from './CustomerNavigator';
 import QueryScreen from '../screens/Customer/QueryScreen';
 
+// providers
+import CustomerProvider from '../contexts/customerContext';
+
 const Stack = createNativeStackNavigator();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen options={{ headerShown: false }} name="SplashScreen" component={SplashScreen} />
-      <Stack.Screen options={{ headerShown: false }} name="LoginScreen" component={LoginScreen} />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="SyncScreen"
-        component={TabNavigatorSync}
-      />
-      <Stack.Screen options={{ headerShown: false }} name="HomeScreen" component={HomeScreen} />
-      <Stack.Screen options={{ headerShown: false }} name="QueryScreen" component={QueryScreen} />
-      <Stack.Screen
-        options={{ headerShown: false }}
-        name="MainPersonalDataScreen"
-        component={CustomerTabNavigator}
-      />
-    </Stack.Navigator>
+    <CustomerProvider>
+      <Stack.Navigator>
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="SplashScreen"
+          component={SplashScreen}
+        />
+        <Stack.Screen options={{ headerShown: false }} name="LoginScreen" component={LoginScreen} />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="SyncScreen"
+          component={TabNavigatorSync}
+        />
+        <Stack.Screen options={{ headerShown: false }} name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen options={{ headerShown: false }} name="QueryScreen" component={QueryScreen} />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="MainPersonalDataScreen"
+          component={CustomerTabNavigator}
+        />
+      </Stack.Navigator>
+    </CustomerProvider>
   );
 }
 
