@@ -55,21 +55,39 @@ function MainScreen({ navigation, route }) {
   useEffect(() => {
     const navParams = navigation.addListener('focus', () => {
       const { params } = route;
-      fillId(params.id);
-      fillName(params.name);
-      fillFantasyName(params.fantasyName);
-      fillCpfCnpj(params.cpfCnpj);
-      fillRgIe(params.rgIe);
-      fillPhone(params.phone);
-      fillEmail(params.email);
-      fillAddress(params.address);
-      fillNumber(params.number.toString());
-      fillDistrict(params.district);
-      fillZipCode(params.zipCode);
-      fillState(params.state);
-      fillCity(params.city);
-      fillComplement(params.complement);
-      fillAdditional(params.additional);
+      if (
+        params.id !== '' ||
+        params.name !== '' ||
+        params.fantasyName !== '' ||
+        params.cpfCnpj !== '' ||
+        params.rgIe !== '' ||
+        params.phone !== '' ||
+        params.email !== '' ||
+        params.address !== '' ||
+        params.number !== '' ||
+        params.district !== '' ||
+        params.zipCode !== '' ||
+        params.state !== '' ||
+        params.city !== '' ||
+        params.complement !== '' ||
+        params.additional !== ''
+      ) {
+        fillId(params.id);
+        fillName(params.name);
+        fillFantasyName(params.fantasyName);
+        fillCpfCnpj(params.cpfCnpj);
+        fillRgIe(params.rgIe);
+        fillPhone(params.phone);
+        fillEmail(params.email);
+        fillAddress(params.address);
+        fillNumber(params.number.toString());
+        fillDistrict(params.district);
+        fillZipCode(params.zipCode);
+        fillState(params.state);
+        fillCity(params.city);
+        fillComplement(params.complement);
+        fillAdditional(params.additional);
+      }
     });
 
     return navParams;
