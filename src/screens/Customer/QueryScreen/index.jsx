@@ -161,7 +161,28 @@ function QueryScreen({ navigation }) {
         bgColor="amber.500"
         _pressed={{ bgColor: 'amber.600' }}
         icon={<Icon as={MaterialCommunityIcons} name="plus" color="white" />}
-        onPress={() => navigation.navigate('MainPersonalDataScreen')}
+        onPress={() =>
+          navigation.navigate('MainPersonalDataScreen', {
+            screen: 'MainScreen',
+            params: {
+              id: '',
+              name: '',
+              fantasyName: '',
+              cpfCnpj: '',
+              rgIe: '',
+              address: '',
+              district: '',
+              city: '',
+              state: '',
+              zipCode: '',
+              complement: '',
+              number: '',
+              additional: '',
+              email: '',
+              phone: '',
+            },
+          })
+        }
       />
     </NativeBaseProvider>
   );
