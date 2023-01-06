@@ -236,7 +236,10 @@ function AddressScreen({ navigation }) {
                       keyExtractor={(item) => item.id}
                     />
                   }
-                  clearValue={() => fillModalState('')}
+                  clearValue={() => {
+                    fillModalState('');
+                    fillModalCity('');
+                  }}
                   clearSearchValue={() => setModalZipCodeStateSearch('')}
                   searchValue={modalZipCodeStateSearch}
                   onSearch={(text) => setModalZipCodeStateSearch(text)}
@@ -408,7 +411,10 @@ function AddressScreen({ navigation }) {
                 keyExtractor={(item) => item.id}
               />
             }
-            clearValue={() => fillState('')}
+            clearValue={() => {
+              fillState('');
+              fillCity('');
+            }}
             clearSearchValue={() => setModalStateSearch('')}
             searchValue={modalStateSearch}
             onSearch={(text) => setModalStateSearch(text)}
