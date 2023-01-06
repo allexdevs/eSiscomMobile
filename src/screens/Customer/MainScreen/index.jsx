@@ -12,7 +12,11 @@ import MaskInputComponent from '../../../components/MaskInputComponent';
 import { CustomerContext } from '../../../contexts/customerContext';
 import FabButtonComponent from '../../../components/FabButtonComponent';
 
-import { addNewCustomer, updateCustomer } from '../../../services/customersService';
+import {
+  addNewCustomer,
+  updateCustomer,
+  getCustomerById,
+} from '../../../services/customersService';
 import { showAlert } from '../../../shared/helpers';
 
 function MainScreen({ navigation, route }) {
@@ -53,44 +57,53 @@ function MainScreen({ navigation, route }) {
   } = useContext(CustomerContext);
 
   useEffect(() => {
+    const { params } = route;
     const navParams = navigation.addListener('focus', () => {
-      const { params } = route;
-      if (
-        params.id !== '' ||
-        params.name !== '' ||
-        params.fantasyName !== '' ||
-        params.cpfCnpj !== '' ||
-        params.rgIe !== '' ||
-        params.phone !== '' ||
-        params.email !== '' ||
-        params.address !== '' ||
-        params.number !== '' ||
-        params.district !== '' ||
-        params.zipCode !== '' ||
-        params.state !== '' ||
-        params.city !== '' ||
-        params.complement !== '' ||
-        params.additional !== ''
-      ) {
-        fillId(params.id);
-        fillName(params.name);
-        fillFantasyName(params.fantasyName);
-        fillCpfCnpj(params.cpfCnpj);
-        fillRgIe(params.rgIe);
-        fillPhone(params.phone);
-        fillEmail(params.email);
-        fillAddress(params.address);
-        fillNumber(params.number.toString());
-        fillDistrict(params.district);
-        fillZipCode(params.zipCode);
-        fillState(params.state);
-        fillCity(params.city);
-        fillComplement(params.complement);
-        fillAdditional(params.additional);
-      }
+      if (params.id !== '') {
+        getCustomerById(params.id)
+          .then((responseData) => {
+            fillId(responseData.payload.CODIGO);
+            fillName(responseData.payload.NOME);
+            fillFantasyName(responseData.payload.FANTASIA);
+            fillCpfCnpj(responseData.payload.CPF_CNPJ);
+            fillRgIe(responseData.payload.RG_IE);
+            fillAddress(responseData.payload.RUA);
+            fillDistrict(responseData.payload.BAIRRO);
+            fillCity(responseData.payload.CIDADE);
+            fillState(responseData.payload.ESTADO);
+            fillZipCode(responseData.payload.CEP);
+            fillComplement(responseData.payload.COMPLEMENTO);
+            fillNumber(responseData.payload.NUMERO.toString());
+            fillAdditional(responseData.payload.OBS);
+            fillEmail(responseData.payload.EMAIL);
+            fillPhone(responseData.payload.TELEFONE);
+          })
+          .catch((error) => console.log(error));
+      } else console.log(`Id: ${params.id}`);
+    });
+    return navParams;
+  }, [navigation]);
+
+  useEffect(() => {
+    const removeNavParams = navigation.addListener('beforeRemove', () => {
+      fillId('');
+      fillName('');
+      fillFantasyName('');
+      fillCpfCnpj('');
+      fillRgIe('');
+      fillAddress('');
+      fillDistrict('');
+      fillCity('');
+      fillState('');
+      fillZipCode('');
+      fillComplement('');
+      fillNumber(''.toString());
+      fillAdditional('');
+      fillEmail('');
+      fillPhone('');
     });
 
-    return navParams;
+    return removeNavParams;
   }, [navigation]);
 
   return (

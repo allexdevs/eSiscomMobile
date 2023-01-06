@@ -135,20 +135,6 @@ function QueryScreen({ navigation }) {
                 screen: 'MainScreen',
                 params: {
                   id: item.CODIGO,
-                  name: item.NOME,
-                  fantasyName: item.FANTASIA,
-                  cpfCnpj: item.CPF_CNPJ,
-                  rgIe: item.RG_IE,
-                  address: item.RUA,
-                  district: item.BAIRRO,
-                  city: item.CIDADE,
-                  state: item.ESTADO,
-                  zipCode: item.CEP,
-                  complement: item.COMPLEMENTO,
-                  number: item.NUMERO,
-                  additional: item.OBS,
-                  email: item.EMAIL,
-                  phone: item.TELEFONE,
                 },
               })
             }
@@ -166,20 +152,6 @@ function QueryScreen({ navigation }) {
             screen: 'MainScreen',
             params: {
               id: '',
-              name: '',
-              fantasyName: '',
-              cpfCnpj: '',
-              rgIe: '',
-              address: '',
-              district: '',
-              city: '',
-              state: '',
-              zipCode: '',
-              complement: '',
-              number: '',
-              additional: '',
-              email: '',
-              phone: '',
             },
           })
         }
