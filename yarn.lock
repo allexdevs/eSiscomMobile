@@ -6654,11 +6654,6 @@ react-native-mask-input@^1.2.2:
   resolved "https://registry.yarnpkg.com/react-native-mask-input/-/react-native-mask-input-1.2.2.tgz#cad1b3b35b198ce3523e4bc32ac2d5c8e52bb4af"
   integrity sha512-AJtyDzUgXAiUZWe6jtf4sl5FV5q603AUR71+ma2SqI2YOTQr9exOPn8ZowC/n5KE0aL/YB9dCKnf+qbd/a082w==
 
-react-native-pager-view@^6.1.2:
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/react-native-pager-view/-/react-native-pager-view-6.1.2.tgz#3522079b9a9d6634ca5e8d153bc0b4d660254552"
-  integrity sha512-qs2KSFc+7N7B+UZ6SG2sTvCkppagm5fVyRclv1KFKc7lDtrhXLzN59tXJw575LDP/dRJoXsNwqUAhZJdws6ABQ==
-
 react-native-safe-area-context@^4.4.1:
   version "4.4.1"
   resolved "https://registry.npmjs.org/react-native-safe-area-context/-/react-native-safe-area-context-4.4.1.tgz"
