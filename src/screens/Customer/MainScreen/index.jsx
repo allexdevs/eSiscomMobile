@@ -18,10 +18,12 @@ import {
   getCustomerById,
 } from '../../../services/customersService';
 import { showAlert } from '../../../shared/helpers';
+import LoadingComponent from '../../../components/LoadingComponent';
 
 function MainScreen({ navigation, route }) {
   const [togglePassword, setTogglePassword] = useState(false);
   const [toggleFabButton, setToggleFabButton] = useState(true);
+  const [showLoading, setShowLoading] = useState(false);
 
   const {
     id,
@@ -60,6 +62,7 @@ function MainScreen({ navigation, route }) {
     const { params } = route;
     const navParams = navigation.addListener('focus', () => {
       if (params.id !== '') {
+        setShowLoading(true);
         getCustomerById(params.id)
           .then((responseData) => {
             fillId(responseData.payload.CODIGO);
@@ -78,7 +81,8 @@ function MainScreen({ navigation, route }) {
             fillEmail(responseData.payload.EMAIL);
             fillPhone(responseData.payload.TELEFONE);
           })
-          .catch((error) => console.log(error));
+          .catch((error) => console.log(error))
+          .finally(() => setShowLoading(false));
       } else console.log(`Id: ${params.id}`);
     });
     return navParams;
@@ -108,6 +112,7 @@ function MainScreen({ navigation, route }) {
 
   return (
     <NativeBaseProvider>
+      <LoadingComponent show={showLoading} />
       <HeaderComponent title="Principal" link={() => navigation.navigate('QueryScreen')} />
       <ScrollView
         _contentContainerStyle={{

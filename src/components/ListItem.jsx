@@ -1,5 +1,15 @@
 import React from 'react';
-import { NativeBaseProvider, Box, Icon, Text, Button, HStack, VStack, Divider } from 'native-base';
+import {
+  NativeBaseProvider,
+  IconButton,
+  Box,
+  Icon,
+  Text,
+  Button,
+  HStack,
+  VStack,
+  Divider,
+} from 'native-base';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import PropTypes from 'prop-types';
 
@@ -30,12 +40,12 @@ function ListItem({ title, subtitle, address, link, deleteItem }) {
               {address}
             </Text>
           </VStack>
-          <Button
-            rightIcon={
+          <IconButton
+            icon={
               <Icon as={MaterialCommunityIcons} name="account-edit" size="lg" color="amber.500" />
             }
             ml="auto"
-            borderRadius="50"
+            borderRadius="full"
             variant="ghost"
             _pressed={{
               bgColor: 'gray.300',
