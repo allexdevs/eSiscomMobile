@@ -17,6 +17,7 @@ import {
   Checkbox,
   FlatList,
 } from 'native-base';
+import SweetAlert from 'react-native-sweet-alert';
 import HeaderComponent from '../../../components/HeaderComponent';
 import InputComponent from '../../../components/InputComponent';
 import ModalComponent from '../../../components/ModalComponent';
@@ -28,15 +29,16 @@ import { CustomerContext } from '../../../contexts/customerContext';
 import ListItemOfZipCode from '../../../components/ListItemOfZipCode';
 import MaskInputComponent from '../../../components/MaskInputComponent';
 import SelectComponentWithSearchBar from '../../../components/SelectComponentWithSearchBar';
-
-import { addNewCustomer, updateCustomer } from '../../../services/customersService';
-
 import {
+  showAlert,
   limitCharacters,
   removeSpecialCharacters,
   filterCity,
   filterState,
 } from '../../../shared/helpers';
+
+import { addNewCustomer, updateCustomer } from '../../../services/customersService';
+import LoadingComponent from '../../../components/LoadingComponent';
 
 function AddressScreen({ navigation }) {
   const [isOpen, setIsOpen] = React.useState(false);
@@ -54,6 +56,8 @@ function AddressScreen({ navigation }) {
   // zip code city
   const [toggleModalZipCodeCity, setToggleModalZipCodeCity] = React.useState(false);
   const [modalZipCodeCitySearch, setModalZipCodeCitySearch] = React.useState('');
+
+  const [showLoading, setShowLoading] = React.useState(false);
 
   const {
     id,
@@ -77,6 +81,13 @@ function AddressScreen({ navigation }) {
     complement,
     modalListCities,
     listZipCode,
+    fillId,
+    fillName,
+    fillFantasyName,
+    fillCpfCnpj,
+    fillRgIe,
+    fillPhone,
+    fillEmail,
     fillAddress,
     fillNumber,
     fillDistrict,
@@ -89,10 +100,12 @@ function AddressScreen({ navigation }) {
     fillModalComplement,
     setListZipCode,
     lookForZipCode,
+    fillAdditional,
   } = React.useContext(CustomerContext);
 
   return (
     <NativeBaseProvider>
+      <LoadingComponent show={showLoading} />
       <HeaderComponent title="Endereço" link={() => navigation.navigate('QueryScreen')} />
 
       <ScrollView
@@ -499,42 +512,115 @@ function AddressScreen({ navigation }) {
       toggleFabButton === true ? (
         <FabButtonComponent
           onPress={() => {
-            id !== ''
-              ? addNewCustomer(
-                  name,
-                  fantasyName,
-                  cpfCnpj,
-                  rgIe,
-                  phone,
-                  email,
-                  address,
-                  number,
-                  district,
-                  zipCode,
-                  state,
-                  city,
-                  complement,
-                  additional
-                )
-              : updateCustomer(
-                  id,
-                  name,
-                  fantasyName,
-                  cpfCnpj,
-                  rgIe,
-                  address,
-                  district,
-                  city,
-                  state,
-                  zipCode,
-                  complement,
-                  number,
-                  additional,
-                  email,
-                  phone,
-                  '',
-                  '0'
-                );
+            if (id === '') {
+              addNewCustomer(
+                name,
+                fantasyName,
+                cpfCnpj,
+                rgIe,
+                phone,
+                email,
+                address,
+                number,
+                district,
+                zipCode,
+                state,
+                city,
+                complement,
+                additional
+              )
+                .then((responseData) => {
+                  showAlert(
+                    'Adicionar Usuário',
+                    responseData.message,
+                    'success',
+                    'Ok',
+                    (callback) => {
+                      if (callback === 'accepted') {
+                        setShowLoading(true);
+                        fillId('');
+                        fillName('');
+                        fillFantasyName('');
+                        fillCpfCnpj('');
+                        fillRgIe('');
+                        fillPhone('');
+                        fillEmail('');
+                        fillAddress('');
+                        fillNumber('');
+                        fillDistrict('');
+                        fillZipCode('');
+                        fillState('');
+                        fillCity('');
+                        fillComplement('');
+                        fillAdditional('');
+                        fillAdditional('');
+                        SweetAlert.dismissAlert();
+                        setShowLoading(false);
+                        navigation.navigate('QueryScreen');
+                      }
+                    }
+                  );
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            } else {
+              updateCustomer(
+                id,
+                name,
+                fantasyName,
+                cpfCnpj,
+                rgIe,
+                address,
+                district,
+                city,
+                state,
+                zipCode,
+                complement,
+                number,
+                additional,
+                email,
+                phone,
+                'A',
+                '0'
+              )
+                .then((responseData) => {
+                  showAlert(
+                    'Atualizar Usuário',
+                    responseData.message,
+                    'success',
+                    'Ok',
+                    (callback) => {
+                      if (callback === 'accepted') {
+                        setShowLoading(true);
+                        fillId('');
+                        fillName('');
+                        fillFantasyName('');
+                        fillCpfCnpj('');
+                        fillRgIe('');
+                        fillPhone('');
+                        fillEmail('');
+                        fillAddress('');
+                        fillNumber('');
+                        fillDistrict('');
+                        fillZipCode('');
+                        fillState('');
+                        fillCity('');
+                        fillComplement('');
+                        fillAdditional('');
+                        fillAdditional('');
+                        SweetAlert.dismissAlert();
+                        setShowLoading(false);
+                        navigation.navigate('QueryScreen');
+                      }
+                    }
+                  );
+                  console.log(responseData);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            }
           }}
         />
       ) : null}

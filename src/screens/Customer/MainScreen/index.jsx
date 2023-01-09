@@ -268,6 +268,7 @@ function MainScreen({ navigation, route }) {
                     'Ok',
                     (callback) => {
                       if (callback === 'accepted') {
+                        setShowLoading(true);
                         fillId('');
                         fillName('');
                         fillFantasyName('');
@@ -283,7 +284,9 @@ function MainScreen({ navigation, route }) {
                         fillCity('');
                         fillComplement('');
                         fillAdditional('');
+                        fillAdditional('');
                         SweetAlert.dismissAlert();
+                        setShowLoading(false);
                         navigation.navigate('QueryScreen');
                       }
                     }
@@ -320,6 +323,7 @@ function MainScreen({ navigation, route }) {
                     'Ok',
                     (callback) => {
                       if (callback === 'accepted') {
+                        setShowLoading(true);
                         fillId('');
                         fillName('');
                         fillFantasyName('');
@@ -335,7 +339,9 @@ function MainScreen({ navigation, route }) {
                         fillCity('');
                         fillComplement('');
                         fillAdditional('');
+                        fillAdditional('');
                         SweetAlert.dismissAlert();
+                        setShowLoading(false);
                         navigation.navigate('QueryScreen');
                       }
                     }
