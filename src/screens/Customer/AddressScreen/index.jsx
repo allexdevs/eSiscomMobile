@@ -228,6 +228,7 @@ function AddressScreen({ navigation }) {
                           borderRadius="full"
                           onPress={() => {
                             fillModalState(item.value.toUpperCase());
+                            fillModalCity('');
                             setToggleModalZipCodeState(false);
                             setModalZipCodeStateSearch('');
                           }}
@@ -403,6 +404,7 @@ function AddressScreen({ navigation }) {
                     borderRadius="full"
                     onPress={() => {
                       fillState(item.value.toUpperCase());
+                      fillCity('');
                       setToggleModalState(false);
                       setModalStateSearch('');
                     }}
