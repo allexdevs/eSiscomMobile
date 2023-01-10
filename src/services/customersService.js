@@ -1,5 +1,6 @@
 /* eslint-disable object-shorthand */
 import URL_API from '../shared/constants';
+import { removeMask } from '../shared/helpers';
 
 const getCustomers = async () => {
   const request = await fetch(`${URL_API}/clients/findAll`);
@@ -17,6 +18,20 @@ const getCustomerByName = async (name) => {
 const getCustomerById = async (codigo) => {
   const customerId = parseInt(codigo, 10);
   const request = await fetch(`${URL_API}/clients/findById/${customerId}`);
+  const response = await request.json();
+  return response;
+};
+
+const getCustomerByCPF = async (cpf) => {
+  const customerCPF = removeMask(cpf);
+  const request = await fetch(`${URL_API}/clients/findByCPF/${customerCPF}`);
+  const response = await request.json();
+  return response;
+};
+
+const getCustomerByCNPJ = async (cnpj) => {
+  const customerCNPJ = removeMask(cnpj);
+  const request = await fetch(`${URL_API}/clients/findByCNPJ/${customerCNPJ}`);
   const response = await request.json();
   return response;
 };
@@ -131,6 +146,8 @@ export {
   getCustomers,
   getCustomerByName,
   getCustomerById,
+  getCustomerByCPF,
+  getCustomerByCNPJ,
   addNewCustomer,
   updateCustomer,
   deleteCustomer,

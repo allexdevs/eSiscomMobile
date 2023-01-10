@@ -12,6 +12,8 @@ import {
   getCustomers,
   getCustomerByName,
   getCustomerById,
+  getCustomerByCPF,
+  getCustomerByCNPJ,
   deleteCustomer,
 } from '../../../services/customersService';
 import ListItem from '../../../components/ListItem';
@@ -20,7 +22,7 @@ import SearchBarComponent from '../../../components/SearchBarComponent';
 import { showAlert } from '../../../shared/helpers';
 
 function QueryScreen({ navigation }) {
-  const [filterValue, setFilterValue] = useState('');
+  const [filterValue, setFilterValue] = useState('CODIGO');
   const [searchValue, setSearchValue] = useState('');
   const [customers, setCustomers] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
@@ -48,9 +50,24 @@ function QueryScreen({ navigation }) {
             res.status === 'success' ? setCustomers(res.payload) : setCustomers([]);
           })
           .catch((error) => console.log(error));
-      } else {
+      } else if (filterValue === 'CODIGO') {
         setCustomers([]);
         getCustomerById(searchValue)
+          .then((res) => {
+            res.status === 'success' ? setCustomers([res.payload]) : setCustomers([]);
+          })
+          .catch((error) => console.log(error));
+      } else if (filterValue === 'CPF') {
+        setCustomers([]);
+        getCustomerByCPF(searchValue)
+          .then((res) => {
+            console.log(res);
+            res.status === 'success' ? setCustomers([res.payload]) : setCustomers([]);
+          })
+          .catch((error) => console.log(error));
+      } else if (filterValue === 'CNPJ') {
+        setCustomers([]);
+        getCustomerByCNPJ(searchValue)
           .then((res) => {
             res.status === 'success' ? setCustomers([res.payload]) : setCustomers([]);
           })

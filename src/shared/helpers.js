@@ -35,4 +35,7 @@ const showAlert = (title, message, type, buttonLabel, feedBack) => {
   );
 };
 
-export { limitCharacters, removeSpecialCharacters, filterCity, filterState, showAlert };
+const removeMask = (value) =>
+  value !== '' ? value.replace(/[a-z]|[A-Z]|[?!@$%&*|\\/#]/g, '') : null;
+
+export { limitCharacters, removeSpecialCharacters, filterCity, filterState, showAlert, removeMask };
