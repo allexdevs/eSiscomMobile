@@ -135,9 +135,9 @@ export default function ProductsScreen() {
     }
   };
 
-  // useEffect(() => {
-  //   productSearch();
-  // }, [searchValue, filterValue]);
+  useEffect(() => {
+    productSearch();
+  }, [searchValue, filterValue]);
 
   return (
     <NativeBaseProvider>
