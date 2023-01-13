@@ -37,7 +37,7 @@ const items = [
     rightIcon: 'chevron-right-circle-outline',
     title: 'Produtos',
     subtitle: 'Consulta de Produtos',
-    route: 'Products',
+    route: 'ProductsScreen',
   },
   {
     id: 6,

@@ -11,6 +11,7 @@ function SearchBarComponent({
   searchValue,
   changeSearchValue,
   clearSearchValue,
+  submitEditing,
 }) {
   return (
     <Box
@@ -65,6 +66,7 @@ function SearchBarComponent({
           returnKeyType="done"
           value={searchValue}
           onChangeText={changeSearchValue}
+          onSubmitEditing={submitEditing}
           InputRightElement={
             <Button
               _pressed={{
@@ -98,6 +100,7 @@ SearchBarComponent.propTypes = {
   searchValue: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   changeSearchValue: PropTypes.func,
   clearSearchValue: PropTypes.func,
+  submitEditing: PropTypes.func,
 };
 
 SearchBarComponent.defaultProps = {
@@ -108,6 +111,7 @@ SearchBarComponent.defaultProps = {
   searchValue: '',
   changeSearchValue: () => {},
   clearSearchValue: () => {},
+  submitEditing: () => {},
 };
 
 export default SearchBarComponent;

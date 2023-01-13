@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import SplashScreen from '../screens/SplashScreen';
 import LoginScreen from '../screens/Authentication/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
+import ProductsScreen from '../screens/Products';
 
 // navigators
 import TabNavigatorSync from './SyncNavigator';
@@ -37,6 +38,11 @@ function RootNavigator() {
           options={{ headerShown: false }}
           name="MainPersonalDataScreen"
           component={CustomerTabNavigator}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="ProductsScreen"
+          component={ProductsScreen}
         />
       </Stack.Navigator>
     </CustomerProvider>
