@@ -61,7 +61,7 @@ function SearchBarComponent({
           placeholder="Pesquisar"
           ml="2"
           color="gray.500"
-          keyboardType={filterValue === 'NOME' ? 'default' : 'numeric'}
+          keyboardType={filterValue === 'CODIGO' ? 'numeric' : 'default'}
           keyboardAppearance="default"
           returnKeyType="done"
           value={searchValue}

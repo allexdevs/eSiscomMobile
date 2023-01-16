@@ -21,28 +21,28 @@ const findProductsByName = async (name) => {
 };
 
 const findProductsByGroup = async (group) => {
-  const productGroup = parseInt(group, 11);
+  const productGroup = group.toUpperCase();
   const request = await fetch(`${URL_API}/products/findByGroup/${productGroup}`);
   const response = await request.json();
   return response;
 };
 
 const findProductsBySubGroup = async (subgroup) => {
-  const productSubGroup = parseInt(subgroup, 11);
+  const productSubGroup = subgroup.toUpperCase();
   const request = await fetch(`${URL_API}/products/findBySubGroup/${productSubGroup}`);
   const response = await request.json();
   return response;
 };
 
 const findProductsByBrand = async (brand) => {
-  const productBrand = parseInt(brand, 11);
+  const productBrand = brand.toUpperCase();
   const request = await fetch(`${URL_API}/products/findByBrand/${productBrand}`);
   const response = await request.json();
   return response;
 };
 
 const findProductsByFurnisher = async (furnisher) => {
-  const productFurnisher = parseInt(furnisher, 11);
+  const productFurnisher = furnisher.toUpperCase();
   const request = await fetch(`${URL_API}/products/findByFurnisher/${productFurnisher}`);
   const response = await request.json();
   return response;

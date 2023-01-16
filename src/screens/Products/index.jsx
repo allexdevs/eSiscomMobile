@@ -28,6 +28,9 @@ import {
   findProductsByFurnisher,
 } from '../../services/productsService';
 
+// helpers
+import { toCurrency } from '../../shared/helpers';
+
 export default function ProductsScreen() {
   const navigation = useNavigation();
   const [filterValue, setFilterValue] = useState('CODIGO');
@@ -82,7 +85,7 @@ export default function ProductsScreen() {
         findProductsByName(searchValue)
           .then((responseData) => {
             responseData.status === 'success'
-              ? setProductsList([responseData.payload])
+              ? setProductsList(responseData.payload)
               : setProductsList([]);
           })
           .catch((error) => console.log(error));
@@ -135,9 +138,9 @@ export default function ProductsScreen() {
     }
   };
 
-  useEffect(() => {
-    productSearch();
-  }, [searchValue, filterValue]);
+  // useEffect(() => {
+  //   productSearch();
+  // }, [searchValue, filterValue]);
 
   return (
     <NativeBaseProvider>
@@ -149,7 +152,18 @@ export default function ProductsScreen() {
         filterList={products}
         searchValue={searchValue}
         changeSearchValue={(text) => setSearchValue(text)}
-        clearSearchValue={() => setSearchValue('')}
+        submitEditing={() => productSearch()}
+        clearSearchValue={() => {
+          setSearchValue('');
+          setProductsList([]);
+          findAllProducts()
+            .then((responseData) => {
+              responseData.status === 'success'
+                ? setProductsList(responseData.payload)
+                : setProductsList([]);
+            })
+            .catch((error) => console.log(error));
+        }}
         filterPlaceholder="Filtrar"
       />
 
@@ -171,9 +185,9 @@ export default function ProductsScreen() {
             code={item.CODIGO}
             name={item.NOME}
             unity={item.UNIDADE}
-            price={item.VLR_VENDA}
+            price={toCurrency(item.VLR_VENDA)}
             stock={item.ESTOQUE}
-            group={item.GRUPO}
+            group={item.GRUPO_NOME}
           />
         )}
         keyExtractor={(item) => item.CODIGO}

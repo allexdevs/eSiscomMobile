@@ -38,4 +38,14 @@ const showAlert = (title, message, type, buttonLabel, feedBack) => {
 const removeMask = (value) =>
   value !== '' ? value.replace(/[a-z]|[A-Z]|[?!@$%&*|\\/#]/g, '') : null;
 
-export { limitCharacters, removeSpecialCharacters, filterCity, filterState, showAlert, removeMask };
+const toCurrency = (value) => (value !== '' ? `R$ ${parseFloat(value).toFixed(2)}` : null);
+
+export {
+  limitCharacters,
+  removeSpecialCharacters,
+  filterCity,
+  filterState,
+  showAlert,
+  removeMask,
+  toCurrency,
+};
