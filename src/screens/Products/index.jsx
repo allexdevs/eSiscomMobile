@@ -68,7 +68,6 @@ export default function ProductsScreen() {
     });
   }, []);
 
-  // eslint-disable-next-line no-unused-vars
   const productSearch = () => {
     if (searchValue !== '') {
       if (filterValue === 'CODIGO') {
